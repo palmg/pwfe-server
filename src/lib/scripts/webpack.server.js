@@ -1,26 +1,23 @@
 const path = require('path'),
     webpack = require('webpack'),
     env = require('../common/env'),
-    vendor = env.getParam('vendor'),
     entry = env.getParam('entry'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ProgressBarPlugin = require('progress-bar-webpack-plugin'),
     dir = env.getParam('workDir')
 entry.push('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000')
-console.log(vendor)
-
 module.exports = {
-    devtool: 'source-map',
+    devtool: env.getParam('sourceMap'),
     context: dir,
     entry: {
         bundle: entry,
-        vendor: vendor
+        vendor: env.getParam('vendor')
     },
     output: {
-        path: path.resolve(__dirname, "../dist"),
-        filename: '[name].js',
-        chunkFilename: 'chunk.[name].js',
-        publicPath: '/'
+        path: path.resolve(dir, env.getParam('outPath')),
+        filename: env.getParam('fileName'),
+        chunkFilename: env.getParam('chunkFileName'),
+        publicPath: env.getParam('publicPath')
     },
     module: {
         rules: [{
@@ -29,7 +26,7 @@ module.exports = {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    presets: ['es2015', 'stage-0', 'react','react-hmre'] ,
+                    presets: ['es2015', 'stage-0', 'react', 'react-hmre'],
                     plugins: ['transform-runtime', 'add-module-exports'],
                     cacheDirectory: true
                 }
@@ -38,11 +35,11 @@ module.exports = {
             test: /\.scss$/,
             use: [
                 'style-loader',
-                'css-loader?modules&camelCase&importLoaders=1&localIdentName=[name]-[local]',
+                `css-loader?${env.getParam('cssLoadRule')}`,
                 {
-                    loader:'postcss-loader',
+                    loader: 'postcss-loader',
                     options: {
-                        plugins: function() {
+                        plugins: function () {
                             return [
                                 require('autoprefixer')()
                             ];
@@ -53,7 +50,7 @@ module.exports = {
             ]
         }, {
             test: /\.(png|jpg|svg)$/,
-            use:['url-loader?limit=25000']
+            use: ['url-loader?limit=25000']
         }, {
             test: /\.json$/,
             use: ['json-loader']
@@ -65,18 +62,19 @@ module.exports = {
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             names: ['vendor', 'manifest'],
-            filename: '[name].js'
+            filename: env.getParam('chunkFileName').replace('chunkhash' ,'hash'),//开启webpack-dev-server后无法使用chunkHash
+            children: true
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            title:'马良行',
+            title: '马良行',
             filename: path.resolve(dir, env.getParam('htmlFilePath')),
             template: path.resolve(dir, env.getParam('htmlTemplatePath'))
         }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-            '__RunMode':JSON.stringify("SITE"),
-            __Local:true //本地模式
+            __RunMode: JSON.stringify(env.getParam('runMode')),
+            __Local: env.getParam('localRun') //本地模式
         }),
         new ProgressBarPlugin({summary: false})
     ]

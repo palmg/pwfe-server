@@ -12,7 +12,10 @@ import hotMiddleware from 'koa-webpack-hot-middleware'
 import views from 'koa-views'
 import config from '../scripts/webpack.server'
 
-const port = env.getParam('port'),compiler = webpack(config),dir = env.getParam('workDir');
+const port = env.getParam('port'),
+    dir = env.getParam('workDir'),
+    middlewareChain = env.getParam('middlewareChain'),
+    compiler = webpack(config)
 //启动时处理html文件
 compiler.plugin('emit', (compilation, callback) => {
     const assets = compilation.assets
@@ -20,17 +23,20 @@ compiler.plugin('emit', (compilation, callback) => {
 
     Object.keys(assets).forEach(key => {
         if (key.match(/\.html$/)) {
-            file = path.resolve(__dirname, key)
+            file = path.resolve(dir, env.getParam('htmlFilePath'))
             data = assets[key].source()
             fs.writeFileSync(file, data)
         }
     })
     callback()
 })
+
 app.use(views(path.resolve(dir, env.getParam('viewsDir')), {map: {html: 'ejs'}})) //处理模板
-//app.use(createStore) //异步处理store
-//app.use(clientRoute)
-//app.use(dataRoute)
+
+for (let middleware of middlewareChain) {
+    app.use(middleware)
+}
+
 app.use(convert(devMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath

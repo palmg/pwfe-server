@@ -31,16 +31,24 @@ require('asset-require-hook')({
     limit: 25000
 })
 
+const init = require('./lib/common/init')
+    log = require('./lib/common/log')
+
 /**
  * 测试服务器入口
+ * 1）必须设置 app。
+ * 2）必须设置 routes。
  * @param {object} options {
  *
  * }
  */
-const devServer = (options) =>{
-    const env = require('./lib/common/env');
-    console.log(options.workDir)
-    env.setParam("workDir", options.workDir)
+const devServer = (options) => {
+    console.log("init server!")
+
+    //初始化环境参数
+    init(options)
+
+    //加载服务器运行
     require('./lib/dev/server')
 }
 

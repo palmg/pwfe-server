@@ -14,7 +14,7 @@ if (typeof require.ensure !== 'function') { //server without webpack
  * 3）每一个地址分段用一个英文单词描述，例如：/course/list,不要使用多个词汇
  * 6）参数中，id表示页面标识符号，module表示所属模块，url跳转路径，component配置require.ensure加载过程。
  */
-export const routes = [
+const routes = [
     {
         id: 'comp1',
         module: 'comp1',
@@ -44,3 +44,5 @@ export const routes = [
         }
     },
 ]
+
+module.exports = routes

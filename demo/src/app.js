@@ -3,13 +3,13 @@
  */
 
 import React from 'react'
-import {routes} from './routes'
-import {Link} from 'pwfe-dom/router'
+import {Route, Link} from 'pwfe-dom/router'
+import bundle from 'pwfe-dom/bundle'
 
 const App = props => {
-    const {init} = props;
+    const {init, routes} = props;
     return (
-        <div className={styles.app}>
+        <div>
             <Link to="/"><p>Index</p></Link>
             <Link to="/comp1"><p>Comp1</p></Link>
             <Link to="/comp2"><p>comp2</p></Link>
@@ -18,3 +18,5 @@ const App = props => {
         </div>
     )
 }
+
+export default App

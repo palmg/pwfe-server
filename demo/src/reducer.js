@@ -19,4 +19,4 @@ const reducerDemo = (state = 'Demo1', action) => {
     }
 };
 
-export {reducerDemo}
+module.exports = reducerDemo
