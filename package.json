@@ -1,21 +1,27 @@
 {
-  "name": "crss",
-  "version": "1.0.0",
-  "description": "An universal React isomorphic boilerplate for building server-side render web app",
+  "name": "pwfe-server",
+  "version": "0.0.1",
+  "description": "palmg react nodejs serfer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/palmg/pwfe-server.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "nodejs",
+    "palmg"
+  ],
+  "author": "chkui",
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/palmg/pwfe-server#readme",
+  "bugs": {
+    "url": "https://github.com/palmg/pwfe-server/issues"
+  },
   "scripts": {
-    "demo-dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --inline --config ./demo/scripts/webpack.demo.client.js",
-    "demo-build": "webpack --progress --colors --config ./demo/scripts/webpack.demo.client.js",
-    "demo-start": "cross-env NODE_ENV=test nodemon ./demo/server/server.js --watch server --watch build",
-    "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --inline --config ./dev/scripts/webpack.client",
-    "dev-build": "webpack --progress --colors --config ./dev/scripts/webpack.client",
     "dev-start": "cross-env NODE_ENV=test nodemon ./demo/myServer.js --watch server --watch build",
+    "build": "grunt && babel ./src/ -d ./",
     "lint": "eslint . --ext .js",
-    "clean": "rimraf ./site/dist/*",
-    "test-build": "npm run clean && cross-env NODE_ENV=test webpack --config ./site/scripts/webpack.pro.js --progress",
-    "build": "npm run clean && cross-env NODE_ENV=production webpack --config ./site/scripts/webpack.pro.js --progress",
-    "start": "node ./site/dist/server/server.js",
-    "test-start": "npm run test-build && npm run start",
-    "build-start": "npm run build && npm run start",
     "pm2": "pm2"
   },
   "dependencies": {
@@ -66,6 +72,8 @@
     "eslint-plugin-react": "^6.8.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.10.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.24.1",
     "json-loader": "^0.5.4",
@@ -85,7 +93,5 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack-dev-server": "^2.4.5"
-  },
-  "author": "CRSS",
-  "license": "MIT"
+  }
 }

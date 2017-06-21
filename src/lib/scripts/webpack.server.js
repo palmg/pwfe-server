@@ -67,7 +67,6 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            title: '马良行',
             filename: path.resolve(dir, env.getParam('htmlFilePath')),
             template: path.resolve(dir, env.getParam('htmlTemplatePath'))
         }),
