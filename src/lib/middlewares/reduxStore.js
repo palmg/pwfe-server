@@ -25,4 +25,4 @@ async function createStore(ctx, next) {
 }
 
 
-export default createStore
+module.exports = createStore

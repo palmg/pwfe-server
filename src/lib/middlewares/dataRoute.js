@@ -18,4 +18,4 @@ async function dataRoute(ctx, next) {
     } else
         await next();
 }
-export default dataRoute
+module.exports = dataRoute

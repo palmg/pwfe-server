@@ -1,38 +1,41 @@
+'use strict';
+
 /**
  * Created by chkui on 2017/6/21.
  */
-require('babel-polyfill')
+require('babel-polyfill');
 
 // Node babel source map support
-require('source-map-support').install()
+require('source-map-support').install();
 
 // Javascript require hook
 require('babel-register')({
     presets: ['es2015', 'react', 'stage-0'],
     plugins: ['add-module-exports']
-})
+});
 
 // Css require hook
 require('css-modules-require-hook')({
     extensions: ['.scss'],
-    preprocessCss: (data, filename) =>
-        require('node-sass').renderSync({
-            data,
+    preprocessCss: function preprocessCss(data, filename) {
+        return require('node-sass').renderSync({
+            data: data,
             file: filename
-        }).css,
+        }).css;
+    },
     camelCase: true,
     generateScopedName: '[name]-[local]'
-})
+});
 
 // Image require hook
 require('asset-require-hook')({
     name: '/[hash].[ext]',
     extensions: ['jpg', 'png', 'gif', 'svg'],
     limit: 25000
-})
+});
 
-const init = require('./lib/common/init'),
-    log = require('./lib/common/log')
+var init = require('./lib/common/init'),
+    log = require('./lib/common/log');
 
 /**
  * 测试服务器入口
@@ -42,14 +45,14 @@ const init = require('./lib/common/init'),
  *
  * }
  */
-const devServer = (options) => {
-    console.log("init server!")
+var devServer = function devServer(options) {
+    console.log("init server!");
 
     //初始化环境参数
-    init(options)
+    init(options);
 
     //加载服务器运行
-    require('./lib/dev/server')
-}
+    require('./lib/dev/server');
+};
 
-module.exports = devServer
+module.exports = devServer;

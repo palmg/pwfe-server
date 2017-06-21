@@ -23,4 +23,4 @@ async function serverApp(ctx, next) {
     await next()
 }
 
-export default serverApp
+module.exports = serverApp

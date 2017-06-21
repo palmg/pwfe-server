@@ -29,5 +29,4 @@ async function component(ctx, next) {
     }
 }
 
-
-export default component
+module.exports = component

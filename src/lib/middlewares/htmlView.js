@@ -25,4 +25,4 @@ async function htmlView(ctx, next) {
     }
 }
 
-export default htmlView
+module.exports = htmlView
