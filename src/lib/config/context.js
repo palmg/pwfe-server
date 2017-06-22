@@ -41,23 +41,42 @@ const out = {
 const env = {
     //--------------------工作路径配置------------------------
     /**
-     * 基础工作路径，全局的路径都会以这个路径为相对路径
+     * 基础工作路径，全局的路径都会以这个路径为相对路径。
      */
     workDir:__dirname,
     /**
+     * webpack的入口资源路径，如果是相对路径，会以 workDir 的相对路径为准
+     */
+    entry:['./src/demo'],
+    /**
+     * 打包输出路径，如果是相对路径，会以 workDir 的相对路径为准
+     */
+    outPath:'./dist',
+    /**
+     * 客户端文件打包生成路径，当服务器用于打包执行生产时，需要分别生成客户端的文件和服务端的文件。
+     * 这里配置了生成客户端文件的路径。
+     * 输出为workDir的相对路径:path.resolve(workDir, outPath, clientPath)
+     */
+    clientPath:'client',
+    /**
+     * 客户端文件打包生成路径，当服务器用于打包执行生产时，需要分别生成客户端的文件和服务端的文件。
+     * 这里配置了生成客户端文件的路径。
+     * 输出为workDir的相对路径:path.resolve(workDir, outPath, serverPath)
+     */
+    serverPath:'server',
+    /**
      * html模板路径，会通过HotModuleReplacementPlugin生成新的页面，
-     * workDir的相对路径。
-     * path.resolve(dir, htmlTemplatePath)
+     * 输出workDir的相对路径：path.resolve(workDir, htmlTemplatePath)
      * 默认为'./views/index.tpl.html'
      */
     htmlTemplatePath:'./views/index.tpl.html',
     /**
      * HotModuleReplacementPlugin的生成路径。
-     * workDir的相对路径。
-     * path.resolve(dir, htmlFilePath)
-     * 默认为'./dist/index.html'，运行后会生成指定文件
+     * workDir的相对路径:path.resolve(dir, outPath, htmlFileName)。
+     * 如果是生产服务器打包，会生成到:path.resolve(dir, outPath, clientPath, htmlFileName)
+     * 默认为'index.html'，
      */
-    htmlFilePath:'./dist/index.html',
+    htmlFileName:'index.html',
     /**
      * 服务器运行时的渲染模板加载路径
      * workDir的相对路径。
@@ -65,17 +84,43 @@ const env = {
      * 服务器使用ejs作为渲染模板
      */
     viewsDir:'./dist',
+    /**
+     * 页面共有输出路径，用于html打包时，静态资源等的访问路径
+     */
+    publicPath:'/',
+    //-------------------打包资源配置-------------------------
+    /**
+     * 外部资源包，例如：
+     * ['react','react-dom']
+     */
+    vendor:['react','react-dom'],
+    /**
+     * 服务器入口文件配置，当我们需要对生产文件进行打包，需要指向项目中服务入口文件，相对于workDir的路径
+     * devServer无效
+     */
+    serverEntry: false,
+    /**
+     * 打包输出的入口文件名称
+     * devServer无效
+     */
+    serverEntryName: 'server',
+    /**
+     * 配置工程的node_modules路径，在打包生产包时可以不讲node_modules中的第三方包打入。
+     */
+    serverModule:false,
     //-----------------------服务器运行配置-------------------------------------------------------
     /**
      * 服务器运行时的监听端口
      */
     port: 8080,
     /**
-     * 静态资源缓存时间，最小为0。静态资源包括js、css。但不包括html。单位是毫秒
+     * 静态资源缓存时间，最小为0。静态资源包括js、css。但不包括html。单位是毫秒。
+     * devServer无效
      */
     staticMaxAge: 8640000 * 1000,
     /**
      * 静态资源是否执行gzip压缩，如果代理服务器（nginx）开启了gzip压缩，这里可以不必开启。
+     * devServer无效
      */
     gzip: true,
     /**
@@ -102,24 +147,6 @@ const env = {
      * }
      */
     reducer: {},
-    //-------------------打包资源配置-------------------------
-    /**
-     * 外部资源包，例如：
-     * ['react','react-dom']
-     */
-    vendor:['react','react-dom'],
-    /**
-     * webpack的入口资源路径，如果是相对路径，会以 workDir 的相对路径为准
-     */
-    entry:['./src/demo'],
-    /**
-     * 打包输出路径，如果是相对路径，会以 workDir 的相对路径为准
-     */
-    outPath:'./dist',
-    /**
-     * 页面共有输出路径，用于html打包时，静态资源等的访问路径
-     */
-    publicPath:'/',
     //---------------------------------中间件配置----------------------------------------
     /**
      * 中间件处理了连，会在devServer.js或server.js中添加
@@ -133,18 +160,19 @@ const env = {
      */
     chunkFileName: `${out.prefix}${out.idTag}${out.nameTag}[chunkhash:${out.hashLength}].js`,
     /**
-     * 样式命名规则
+     * 样式命名规则。会在webpack配置中以这样的形式输出`clss-loader?${cssLoadRule}`
      */
     cssLoadRule: `modules&camelCase&importLoaders=1&localIdentName=[hash:base64:${out.hashLength}]`,
     /**
-     * 抽取出来的CSS文件名称命名规则
+     * 抽取出来的CSS文件名称命名规则，
+     * devServer无效
      */
     cssFileName: `${out.prefix}${out.idTag}${out.nameTag}[contenthash:${out.hashLength}].css`,
     /**
      * 是否压缩js文件[true|false]
      * devServer无效
      */
-    compressJs: true,
+    compressJs: false,
     /**
      * 标记是否打包source map 文件
      * 可选值:[

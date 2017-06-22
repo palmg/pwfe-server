@@ -19,9 +19,11 @@
     "url": "https://github.com/palmg/pwfe-server/issues"
   },
   "scripts": {
-    "dev-start": "cross-env NODE_ENV=test nodemon ./demo/myServer.js --watch server --watch build",
+    "demo-dev": "cross-env NODE_ENV=test nodemon ./demo/myServer.js --watch server --watch build",
+    "demo-build": "node ./demo/myBuilder.js",
+    "demo-pro": "node ./demo/dist/server/server.js",
+    "demo-clean": "rimraf ./demo/dist/*",
     "build": "grunt && babel ./src/ -d ./",
-    "lint": "eslint . --ext .js",
     "pm2": "pm2"
   },
   "dependencies": {

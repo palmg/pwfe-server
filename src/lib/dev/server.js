@@ -2,7 +2,7 @@
  * Created by chkui on 2017/6/2.
  */
 import env from '../common/env'
-import app from './app.js'
+import app from '../app.js'
 import convert from 'koa-convert'
 import webpack from 'webpack'
 import fs from 'fs'
@@ -10,7 +10,7 @@ import path from 'path'
 import devMiddleware from 'koa-webpack-dev-middleware'
 import hotMiddleware from 'koa-webpack-hot-middleware'
 import views from 'koa-views'
-import config from '../scripts/webpack.server'
+import config from '../scripts/webpack.dev'
 
 const port = env.getParam('port'),
     dir = env.getParam('workDir'),
@@ -23,7 +23,7 @@ compiler.plugin('emit', (compilation, callback) => {
 
     Object.keys(assets).forEach(key => {
         if (key.match(/\.html$/)) {
-            file = path.resolve(dir, env.getParam('htmlFilePath'))
+            file = path.resolve(dir, env.getParam('outPath'), env.getParam('htmlFileName'))
             data = assets[key].source()
             fs.writeFileSync(file, data)
         }
@@ -31,7 +31,7 @@ compiler.plugin('emit', (compilation, callback) => {
     callback()
 })
 
-app.use(views(path.resolve(dir, env.getParam('viewsDir')), {map: {html: 'ejs'}})) //处理模板
+app.use(views(path.resolve(dir, env.getParam('outPath')), {map: {html: 'ejs'}})) //处理模板
 
 for (let middleware of middlewareChain) {
     app.use(middleware)

@@ -6,6 +6,7 @@ const path = require('path'),
     ProgressBarPlugin = require('progress-bar-webpack-plugin'),
     dir = env.getParam('workDir')
 entry.push('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000')
+console.log(process.env.NODE_ENV)
 module.exports = {
     devtool: env.getParam('sourceMap'),
     context: dir,
@@ -62,12 +63,12 @@ module.exports = {
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             names: ['vendor', 'manifest'],
-            filename: env.getParam('chunkFileName').replace('chunkhash' ,'hash'),//开启webpack-dev-server后无法使用chunkHash
+            filename: env.getParam('chunkFileName').replace('chunkhash' ,'hash'),//开启webpack-dev-server后无法使用chunkHash，至webpack3.0依然未修复该问题
             children: true
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            filename: path.resolve(dir, env.getParam('htmlFilePath')),
+            filename: path.resolve(dir, env.getParam('outPath'), env.getParam('htmlFileName')), //workDir + path + name
             template: path.resolve(dir, env.getParam('htmlTemplatePath'))
         }),
         new webpack.DefinePlugin({

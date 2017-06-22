@@ -10,7 +10,7 @@ import compress from 'koa-compress'
 import React from 'react'
 
 const app = new Koa()
-app.keys = ['this is a fucking secret']
+app.keys = ['welcome to palmg'] //TODO 暂未提供配置
 app.use(compress())
 app.use(bodyParser())
 app.use(json())
