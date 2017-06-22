@@ -38,7 +38,7 @@ var init = require('./lib/common/init'),
     log = require('./lib/common/log');
 
 /**
- * 测试服务器入口
+ * 本地开发服务器入口
  * 1）必须设置 app。
  * 2）必须设置 routes。
  * @param {object} options {
@@ -46,7 +46,9 @@ var init = require('./lib/common/init'),
  * }
  */
 var devServer = function devServer(options) {
-    console.log("init server!");
+    log("init server!");
+
+    process.env.NODE_ENV = 'test';
 
     //初始化环境参数
     init(options);
