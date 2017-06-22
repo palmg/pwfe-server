@@ -27,13 +27,21 @@ const init = (opt) => {
     })()
     delete opt.app
 
-    opt.isProd && (()=>{
+    opt.isProd && (()=> {
         opt.serverEntry ? setParam(env, 'serverEntry', opt.serverEntry) : (()=> {
             console.error('"serverEntry" must be setting when building Production!')
             process.exit(0)
         })()
         delete opt.app
     })()
+
+    //设置 entry,可能是列表，也可能是string
+    const entry = opt.entry
+    entry && (()=> {
+        Array.isArray(entry) ? setParam(env, 'entry', entry) : setParam(env, 'entry', [entry])
+        delete opt.entry
+    })()
+
 
     for (let key in opt) {
         typeof env.getParam(key) !== "undefined" ? env.setParam(key, opt[key]) : out.getParam(key) && out.setParam(key, opt[key])
@@ -55,7 +63,7 @@ const init = (opt) => {
     log('workDir:', env.getParam('workDir'))
     log('reducer:', env.getParam('reducer'))
     log('client Entry', env.getParam('entry'))
-    opt.isProd && (()=>{
+    opt.isProd && (()=> {
         log('server Entry:', env.getParam('serverEntry'))
         log('server Module:', env.getParam('serverModule'))
         !env.getParam('serverModule') && log()

@@ -78,13 +78,6 @@ const env = {
      */
     htmlFileName:'index.html',
     /**
-     * 服务器运行时的渲染模板加载路径
-     * workDir的相对路径。
-     * 一般是htmlFilePath生成页面的路径。
-     * 服务器使用ejs作为渲染模板
-     */
-    viewsDir:'./dist',
-    /**
      * 页面共有输出路径，用于html打包时，静态资源等的访问路径
      */
     publicPath:'/',
