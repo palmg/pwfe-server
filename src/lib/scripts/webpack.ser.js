@@ -91,7 +91,6 @@ clientConfig = {
             use: ExtractTextPlugin.extract({
                 fallback: 'style-loader',
                 use: [
-                    'style-loader',
                     `css-loader?${env.getParam('cssLoadRule')}`,
                     {
                         loader: 'postcss-loader',
@@ -149,7 +148,6 @@ serverConfig = {
             use: ExtractTextPlugin.extract({
                 fallback: 'style-loader',
                 use: [
-                    'style-loader',
                     `css-loader?${env.getParam('cssLoadRule')}`,
                     {
                         loader: 'postcss-loader',
