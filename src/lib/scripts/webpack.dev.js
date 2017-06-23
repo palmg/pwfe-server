@@ -6,7 +6,6 @@ const path = require('path'),
     ProgressBarPlugin = require('progress-bar-webpack-plugin'),
     dir = env.getParam('workDir')
 entry.push('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000')
-console.log(process.env.NODE_ENV)
 module.exports = {
     devtool: env.getParam('sourceMap'),
     context: dir,

@@ -30,21 +30,13 @@ const clientPlugins = [
         filename: env.getParam('chunkFileName'), //`[name].[chunkhash:${hashLen}].js`,
         children: true
     }),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.LimitChunkCountPlugin({
-        maxChunks: 35, //TODO 暂未提供配置
-        minChunkSize: 1000 //TODO 暂未提供配置
-    }),
-    new webpack.optimize.MinChunkSizePlugin({
-        minChunkSize: 10000 //TODO 暂未提供配置
-    }),
     new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         __RunMode: JSON.stringify(env.getParam('runMode')),
         __Local: env.getParam('localRun')
     }),
     new HtmlWebpackPlugin({
-        filename: path.resolve(dir, env.getParam('outPath'), env.getParam('clientPath'), env.getParam('htmlFileName')), //workDir + path + name
+        filename: path.resolve(dir, env.getParam('outPath'), env.getParam('viewPath'), env.getParam('htmlFileName')), //workDir + path + name
         template: path.resolve(dir, env.getParam('htmlTemplatePath'))
     }),
     new ExtractTextPlugin({
@@ -58,6 +50,16 @@ env.getParam('compressJs') && clientPlugins.push(new webpack.optimize.UglifyJsPl
     comments: false
 }))
 
+env.getParam('mergingChunk') && (()=>{
+    clientPlugins.push(new webpack.optimize.AggressiveMergingPlugin())
+    clientPlugins.push(new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 35, //TODO 暂未提供配置
+        minChunkSize: 1000 //TODO 暂未提供配置
+    }))
+    clientPlugins.push( new webpack.optimize.MinChunkSizePlugin({
+        minChunkSize: 10000 //TODO 暂未提供配置
+    }))
+})()
 
 clientConfig = {
     devtool: env.getParam('sourceMap'),
@@ -172,10 +174,10 @@ serverConfig = {
     externals: externals(),
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
+        /*new webpack.optimize.UglifyJsPlugin({
             compress: {warnings: false},
             comments: false
-        }),
+        }),*/
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
             __RunMode: JSON.stringify(env.getParam('runMode')),

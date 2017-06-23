@@ -33,8 +33,8 @@ compiler.plugin('emit', (compilation, callback) => {
 
 app.use(views(path.resolve(dir, env.getParam('outPath')), {map: {html: 'ejs'}})) //处理模板
 
-for (let middleware of middlewareChain) {
-    app.use(middleware)
+for (let req of middlewareChain) {
+    app.use(req())
 }
 
 app.use(convert(devMiddleware(compiler, {

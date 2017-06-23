@@ -6,12 +6,12 @@ const out = {
     /**
      * 文件打包时生成的文件以及样式全局哈希编码长度
      */
-    hashLength:8,
+    hashLength: 8,
     /**
      * 输出文件名称文件附加前缀
      * @type {string}
      */
-    prefix : '',
+    prefix: '',
     /**
      * 输出文件名称文件附加后缀
      * @type {string}
@@ -22,12 +22,12 @@ const out = {
      * 用于chunkFileName、chunkFileName，cssFileName
      * @type {string}
      */
-    nameTag : '[name]',
+    nameTag: '[name]',
     /**
      * 打包文件中[id]的标记，当webpack打包时[name]表示当前模块打包之后的webpack生成的对应id。
      * @type {string}
      */
-    idTag : '',
+    idTag: '',
     /**
      * 主文件的打包规则，vendor，manifest都是在这里定义
      */
@@ -43,54 +43,59 @@ const env = {
     /**
      * 基础工作路径，全局的路径都会以这个路径为相对路径。
      */
-    workDir:__dirname,
+    workDir: __dirname,
     /**
      * webpack的入口资源路径，如果是相对路径，会以 workDir 的相对路径为准
      */
     entry: false,
     /**
-     * app
+     * 入口加载的APP，这里必须设定一个方法，以便以打包后在运行时初始化整个模块，而不是在打包时。
+     * 例如：()=>{
+     *     return: require('../src/myApp')。
+     * }
+     * require中的路径是workDir的相对路径
      */
-    appPath: false,
+    app: false,
     /**
      * 打包输出路径，如果是相对路径，会以 workDir 的相对路径为准
      */
-    outPath:'./dist',
+    outPath: './dist',
     /**
      * 客户端文件打包生成路径，当服务器用于打包执行生产时，需要分别生成客户端的文件和服务端的文件。
      * 这里配置了生成客户端文件的路径。
      * 输出为workDir的相对路径:path.resolve(workDir, outPath, clientPath)
      */
-    clientPath:'client',
+    clientPath: 'client',
     /**
      * 客户端文件打包生成路径，当服务器用于打包执行生产时，需要分别生成客户端的文件和服务端的文件。
      * 这里配置了生成客户端文件的路径。
      * 输出为workDir的相对路径:path.resolve(workDir, outPath, serverPath)
      */
-    serverPath:'server',
+    serverPath: 'server',
     /**
      * html模板路径，会通过HotModuleReplacementPlugin生成新的页面，
      * 输出workDir的相对路径：path.resolve(workDir, htmlTemplatePath)
      * 默认为'./views/index.tpl.html'
      */
-    htmlTemplatePath:'./views/index.tpl.html',
+    htmlTemplatePath: './views/index.tpl.html',
     /**
      * HotModuleReplacementPlugin的生成路径。
      * workDir的相对路径:path.resolve(dir, outPath, htmlFileName)。
      * 如果是生产服务器打包，会生成到:path.resolve(dir, outPath, clientPath, htmlFileName)
      * 默认为'index.html'，
      */
-    htmlFileName:'index.html',
+    htmlFileName: 'index.html',
+    viewPath: 'views',
     /**
      * 页面共有输出路径，用于html打包时，静态资源等的访问路径
      */
-    publicPath:'/',
+    publicPath: '/',
     //-------------------打包资源配置-------------------------
     /**
      * 外部资源包，例如：
      * ['react','react-dom']
      */
-    vendor:['react','react-dom'],
+    vendor: ['react', 'react-dom'],
     /**
      * 服务器入口文件配置，当我们需要对生产文件进行打包，需要指向项目中服务入口文件，相对于workDir的路径
      * devServer无效
@@ -104,7 +109,7 @@ const env = {
     /**
      * 配置工程的node_modules路径，在打包生产包时可以不讲node_modules中的第三方包打入。
      */
-    serverModule:false,
+    serverModule: false,
     //-----------------------服务器运行配置-------------------------------------------------------
     /**
      * 服务器运行时的监听端口
@@ -123,11 +128,11 @@ const env = {
     /**
      * 服务器运行模式 ['DEV'|'SITE']，测试环境用'DEV'，生产和仿真环境用'SITE'
      */
-    runMode:"SITE",
+    runMode: "SITE",
     /**
      * 标记是否在本地执行 [true|false]，在任何服务器上运行都设置为false
      */
-    localRun:false,
+    localRun: false,
     //-------------------react对应的配置-------------------------
     /**
      * 工程路由配置
@@ -142,10 +147,16 @@ const env = {
     reducer: {},
     //---------------------------------中间件配置----------------------------------------
     /**
-     * 中间件处理了连，会在devServer.js或server.js中添加
+     * 中间件处理了连，会在devServer.js或server.js中添加.
+     * 设定是中间件的路径，在系统运行时会通过require加载
      * 默认为[reduxStore,component,serverApp,htmlView]。测试环境会额外添加一个dataRoute，用于模拟.json文件进行测试
+     * 参数以回调函数的方式提供：
+     * [()=>require('../middlewares/reduxStore'),
+     * ()=>require('../middlewares/component'),
+     * ()=>require('../middlewares/serverApp'),
+     * ()=>require('../middlewares/htmlView')]
      */
-    middlewareChain:[],
+    middlewareChain: false,
     //---------------------------------文件输出配置---------------------------------------
     fileName: `${out.prefix}${out.idTag}${out.nameTag}[hash:${out.hashLength}${out.suffix}].js`,
     /**
@@ -187,7 +198,7 @@ const env = {
      * 标记是否合并分片文件，合并分片文件会把类似的业务代码合并到同一个分片中。
      * devServer无效
      */
-    MergingChunk: false
+    mergingChunk: false
 }
 
 const context = {

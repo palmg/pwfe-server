@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import serve from 'koa-static'
 import path from 'path'
 import views from 'koa-views'
@@ -9,7 +8,7 @@ const dir = eval('__dirname'), //编译时不执行，运行时在共同环境�
     port = env.getParam('port'),
     maxAge = env.getParam('staticMaxAge'),
     gzip = env.getParam('gzip'),
-    viewsPath = path.resolve(dir, `../${env.getParam('clientPath')}`),
+    viewsPath = path.resolve(dir, `../${env.getParam('viewPath')}`),
     staticPath = path.resolve(dir, `../${env.getParam('clientPath')}`),
     middlewareChain = env.getParam('middlewareChain')
 
@@ -25,8 +24,8 @@ app.use(serve(staticPath, {
     gzip: gzip
 }))
 
-for (let middleware of middlewareChain) {
-    app.use(middleware)
+for (let req of middlewareChain) {
+    app.use(req())
 }
 
 app.listen(port || 8080)

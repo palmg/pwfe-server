@@ -5,12 +5,16 @@ const reducerDemo = require('./src/reducer'),
     routes = require('./src/routes'),
     App = require('./src/app'),
     config = {
+        workDir: __dirname,
+        entry: './src/demo',
+        app: ()=> {
+            return require('./src/app') //异步加载app
+        },
+        appPath: './src/app',
         serverEntry: './myProServer',
         serverModule: '../node_modules',
-        workDir: __dirname,
         reducer: {reducerDemo},
-        routes: routes,
-        app: App
+        routes: routes
     }
 
 module.exports = config

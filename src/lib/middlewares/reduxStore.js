@@ -12,7 +12,7 @@ const reducer = env.getParam("reducer")
  * @param next
  * @return {*}
  */
-async function createStore(ctx, next) {
+async function reduxStore(ctx, next) {
     if (ctx.fluxStore || ctx.url.endsWith(".json") || ctx.url.endsWith(".js") || ctx.url.endsWith(".map") || ctx.url.endsWith(".html") || ctx.url.endsWith("__webpack_hmr")) {
         return next();
     } else {
@@ -25,4 +25,4 @@ async function createStore(ctx, next) {
 }
 
 
-module.exports = createStore
+module.exports = reduxStore

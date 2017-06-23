@@ -3,11 +3,8 @@ import {renderToString} from 'react-dom/server'
 import {StaticRouter} from 'react-router-dom'
 import {Provider} from 'react-redux'
 import env from '../common/env'
-import path from 'path'
 
-const dir = env.getParam('workDir'),
-    appPath = env.getParam('appPath'),
-    App = require(path.resolve(dir, appPath)),
+const App = env.getParam('app')(),
     routes = env.getParam('routes')
 /**
  * 在服务端创建react渲染入口lo

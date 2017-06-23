@@ -44,13 +44,9 @@ const init = require('./lib/common/init'),
  */
 const devServer = (options) => {
     log("init server!")
-
     process.env.NODE_ENV = 'test'
-
-
     //初始化环境参数
     init(options)
-
     //加载服务器运行
     require('./lib/dev/server')
 }
