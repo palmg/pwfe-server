@@ -4,11 +4,6 @@
  * Created by chkui on 2017/6/22.
  */
 
-require('babel-polyfill');
-require('babel-register')({
-    presets: ['es2015', 'react', 'stage-0'],
-    plugins: ['add-module-exports']
-});
 var init = require('./lib/common/init'),
     log = require('./lib/common/log'),
     deleteDir = require('./lib/common/deleteDir'),

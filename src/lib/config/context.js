@@ -47,7 +47,11 @@ const env = {
     /**
      * webpack的入口资源路径，如果是相对路径，会以 workDir 的相对路径为准
      */
-    entry:['./src/demo'],
+    entry: false,
+    /**
+     * app
+     */
+    appPath: false,
     /**
      * 打包输出路径，如果是相对路径，会以 workDir 的相对路径为准
      */
@@ -119,16 +123,12 @@ const env = {
     /**
      * 服务器运行模式 ['DEV'|'SITE']，测试环境用'DEV'，生产和仿真环境用'SITE'
      */
-    runMode:"DEV",
+    runMode:"SITE",
     /**
      * 标记是否在本地执行 [true|false]，在任何服务器上运行都设置为false
      */
     localRun:false,
     //-------------------react对应的配置-------------------------
-    /**
-     * 前端工程的App react component
-     */
-    app: false,
     /**
      * 工程路由配置
      */

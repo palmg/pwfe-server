@@ -79,9 +79,9 @@ clientConfig = {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    presets: ['es2015', 'stage-0', 'react']/*,
-                     plugins: ['transform-runtime', 'add-module-exports'],
-                     cacheDirectory: true*/
+                    presets: ['es2015', 'stage-0', 'react'],
+                    plugins: ['transform-runtime', 'add-module-exports'],
+                    cacheDirectory: true
                 }
             }]
         }, {

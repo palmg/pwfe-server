@@ -23,7 +23,7 @@
     "demo-build": "node ./demo/myBuilder.js",
     "demo-pro": "node ./demo/dist/server/server.js",
     "demo-clean": "rimraf ./demo/dist/*",
-    "build": "grunt && babel ./src/ -d ./",
+    "babel": "grunt && babel ./src/ -d ./",
     "pm2": "pm2"
   },
   "dependencies": {

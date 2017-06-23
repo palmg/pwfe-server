@@ -20,12 +20,15 @@ const init = (opt) => {
     })()
     delete opt.routes
 
-    //设置主react Component
-    opt.app ? setParam(env, 'app', opt.app) : (()=> {
-        console.error('app must be setting!')
+    //设置 entry,可能是列表，也可能是string，服务器会以entry的第一个路径作为渲染入口。
+    const entry = opt.entry
+    entry ? (()=> {
+        Array.isArray(entry) ? setParam(env, 'entry', entry) : setParam(env, 'entry', [entry])
+        delete opt.entry
+    })() : (()=> {
+        console.error('entry must be setting!')
         process.exit(0)
     })()
-    delete opt.app
 
     opt.isProd && (()=> {
         opt.serverEntry ? setParam(env, 'serverEntry', opt.serverEntry) : (()=> {
@@ -33,13 +36,6 @@ const init = (opt) => {
             process.exit(0)
         })()
         delete opt.app
-    })()
-
-    //设置 entry,可能是列表，也可能是string
-    const entry = opt.entry
-    entry && (()=> {
-        Array.isArray(entry) ? setParam(env, 'entry', entry) : setParam(env, 'entry', [entry])
-        delete opt.entry
     })()
 
 
