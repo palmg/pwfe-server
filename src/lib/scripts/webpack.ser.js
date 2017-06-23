@@ -174,10 +174,10 @@ serverConfig = {
     externals: externals(),
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
-        /*new webpack.optimize.UglifyJsPlugin({
+        new webpack.optimize.UglifyJsPlugin({
             compress: {warnings: false},
             comments: false
-        }),*/
+        }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
             __RunMode: JSON.stringify(env.getParam('runMode')),

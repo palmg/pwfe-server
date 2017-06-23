@@ -2,6 +2,7 @@
  * Created by chkui on 2017/6/21.
  */
 
+require('babel-polyfill')
 const init = require('./lib/common/init'),
     log = require('./lib/common/log')
 
