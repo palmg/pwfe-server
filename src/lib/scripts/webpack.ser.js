@@ -26,9 +26,12 @@ const externals = serverModule ?
 const clientPlugins = [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor', 'manifest'],
-        filename: env.getParam('chunkFileName'), //`[name].[chunkhash:${hashLen}].js`,
+        name: 'vendor',
+        filename: env.getParam('chunkFileName'),
         children: true
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest'
     }),
     new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
