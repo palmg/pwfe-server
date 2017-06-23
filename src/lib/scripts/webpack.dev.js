@@ -67,7 +67,7 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            filename: path.resolve(dir, env.getParam('outPath'), env.getParam('htmlFileName')), //workDir + path + name
+            filename: path.resolve(dir, env.getParam('outPath'), env.getParam('viewPath'), env.getParam('htmlFileName')),
             template: path.resolve(dir, env.getParam('htmlTemplatePath'))
         }),
         new webpack.DefinePlugin({

@@ -79,13 +79,19 @@ const env = {
      */
     htmlTemplatePath: './views/index.tpl.html',
     /**
-     * HotModuleReplacementPlugin的生成路径。
-     * workDir的相对路径:path.resolve(dir, outPath, htmlFileName)。
-     * 如果是生产服务器打包，会生成到:path.resolve(dir, outPath, clientPath, htmlFileName)
+     * HtmlWebpackPlugin的生成路径:
+     * path.resolve(dir, outPath, viewPath)
+     * devServer无效
+     */
+    viewPath: 'views',
+    /**
+     * HtmlWebpackPlugin的生成名称。
+     * workDir的相对路径:
+     * 开发环境会生成到 path.resolve(dir, outPath, htmlFileName)。
+     * 生产服务器打包会生成到:path.resolve(dir, outPath, viewPath, htmlFileName)
      * 默认为'index.html'，
      */
     htmlFileName: 'index.html',
-    viewPath: 'views',
     /**
      * 页面共有输出路径，用于html打包时，静态资源等的访问路径
      */
