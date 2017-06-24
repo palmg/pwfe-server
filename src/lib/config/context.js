@@ -201,7 +201,11 @@ const env = {
     /**
      * 用于DefinePlugin的属性配置。是一个对象
      */
-    define:{}
+    define:{},
+    /**
+     * 默认网页的Title。可以在routes列表中为每一个页面设置title
+     */
+    defPageName: 'Palmg'
 }
 
 const context = {

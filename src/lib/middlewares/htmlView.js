@@ -1,7 +1,5 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
-import {StaticRouter} from 'react-router-dom'
-import {Provider} from 'react-redux'
 import env from '../common/env'
 const App = env.getParam('app')
 
@@ -13,7 +11,7 @@ const App = env.getParam('app')
 async function htmlView(ctx, next) {
     if (ctx.reactDom) {
         await ctx.render('index', {
-            title: ctx.initName,
+            title: ctx.initName || env.getParam('defPageName'),
             root: ctx.reactDom,//初始化Html
             state: ctx.fluxStore.getState(), //redux数据
             params: { //服务器参数

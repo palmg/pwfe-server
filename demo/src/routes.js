@@ -38,7 +38,6 @@ const routes = [
         id: 'comp2',
         module: 'comp2',
         url: '/comp2',
-        name: 'Demo2页面',
         component: (call)=> {
             require.ensure([], require => {
                 call(require('./sub/comp2'))
