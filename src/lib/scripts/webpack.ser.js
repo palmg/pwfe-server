@@ -13,53 +13,49 @@ serverEntry[env.getParam('serverEntryName')] = env.getParam('serverEntry') //设
 
 const externals = serverModule ?
 //打服务器文件包时，排除所有node_module文件
-    () => {
-        return fs.readdirSync(path.resolve(dir, serverModule))
-            .filter(filename => !filename.includes('.bin'))
-            .reduce((externals, filename) => {
-                externals[filename] = `commonjs ${filename}`
-                return externals
-            }, {})
-    } : ()=> {
-}
-
-const clientPlugins = [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        filename: env.getParam('chunkFileName'),
-        children: true
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'manifest'
-    }),
-    new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-        __RunMode: JSON.stringify(env.getParam('runMode')),
-        __Local: env.getParam('localRun')
-    }),
-    new HtmlWebpackPlugin({
-        filename: path.resolve(dir, env.getParam('outPath'), env.getParam('viewPath'), env.getParam('htmlFileName')), //workDir + path + name
-        template: path.resolve(dir, env.getParam('htmlTemplatePath'))
-    }),
-    new ExtractTextPlugin({
-        filename: env.getParam('cssFileName'),
-        allChunks: true
-    })
-]
+        () => {
+            return fs.readdirSync(path.resolve(dir, serverModule))
+                .filter(filename => !filename.includes('.bin'))
+                .reduce((externals, filename) => {
+                    externals[filename] = `commonjs ${filename}`
+                    return externals
+                }, {})
+        } : ()=> {
+    },
+    defined = Object.assign({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}, env.getParam('define')),
+    clientPlugins = [
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            filename: env.getParam('chunkFileName'),
+            children: true
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'manifest'
+        }),
+        new webpack.DefinePlugin(defined),
+        new HtmlWebpackPlugin({
+            filename: path.resolve(dir, env.getParam('outPath'), env.getParam('viewPath'), env.getParam('htmlFileName')), //workDir + path + name
+            template: path.resolve(dir, env.getParam('htmlTemplatePath'))
+        }),
+        new ExtractTextPlugin({
+            filename: env.getParam('cssFileName'),
+            allChunks: true
+        })
+    ]
 
 env.getParam('compressJs') && clientPlugins.push(new webpack.optimize.UglifyJsPlugin({
     compress: {warnings: false},
     comments: false
 }))
 
-env.getParam('mergingChunk') && (()=>{
+env.getParam('mergingChunk') && (()=> {
     clientPlugins.push(new webpack.optimize.AggressiveMergingPlugin())
     clientPlugins.push(new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 35, //TODO 暂未提供配置
         minChunkSize: 1000 //TODO 暂未提供配置
     }))
-    clientPlugins.push( new webpack.optimize.MinChunkSizePlugin({
+    clientPlugins.push(new webpack.optimize.MinChunkSizePlugin({
         minChunkSize: 10000 //TODO 暂未提供配置
     }))
 })()
@@ -120,7 +116,6 @@ clientConfig = {
     },
     plugins: clientPlugins
 }
-
 serverConfig = {
     context: dir,
     entry: serverEntry,
@@ -179,11 +174,7 @@ serverConfig = {
             compress: {warnings: false},
             comments: false
         }),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-            __RunMode: JSON.stringify(env.getParam('runMode')),
-            __Local: env.getParam('localRun') //本地模式
-        }),
+        new webpack.DefinePlugin(defined),
         new ExtractTextPlugin({
             filename: env.getParam('cssFileName'),
             allChunks: true

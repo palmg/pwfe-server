@@ -31,7 +31,9 @@ var init = require('./lib/common/init'),
  *    [server]由 path.resolve(workDir, outPath, serverPath)确定
  * 3）打包完成后会生成在[dist][server]文件夹生成一个 [server.js] 文件(由serverEntryName参数指定名称)
  * 4）直接运行[server.js]文件即可启动服务器: $ node [dist][server][server.js]
- * @param {context} options 详见参数配置说明
+ * @param {object} options {
+ *     //options的配置详见 {./config/context}
+ * }
  * @param cb 打包完成后的回调函数，如果没有则不执行 cb:()=>{}
  */
 var builder = function builder(options, cb) {

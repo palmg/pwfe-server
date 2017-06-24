@@ -131,14 +131,6 @@ const env = {
      * devServer无效
      */
     gzip: true,
-    /**
-     * 服务器运行模式 ['DEV'|'SITE']，测试环境用'DEV'，生产和仿真环境用'SITE'
-     */
-    runMode: "SITE",
-    /**
-     * 标记是否在本地执行 [true|false]，在任何服务器上运行都设置为false
-     */
-    localRun: false,
     //-------------------react对应的配置-------------------------
     /**
      * 工程路由配置
@@ -204,7 +196,12 @@ const env = {
      * 标记是否合并分片文件，合并分片文件会把类似的业务代码合并到同一个分片中。
      * devServer无效
      */
-    mergingChunk: false
+    mergingChunk: false,
+    //------------------------------定义配置
+    /**
+     * 用于DefinePlugin的属性配置。是一个对象
+     */
+    define:{}
 }
 
 const context = {

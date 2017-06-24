@@ -13,5 +13,9 @@ const devServer = require('../devServer'),
             routes: routes,
             app: ()=> {
                 return require('./src/app')
+            },
+            define:{
+                runMode: "SITE",
+                localRun: false,
             }
         });

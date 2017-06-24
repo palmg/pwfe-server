@@ -6,13 +6,14 @@ import env from '../common/env'
 const App = env.getParam('app')
 
 /**
- * 进行html模板渲染
+ * 进行html模板渲染的组件。
  * @param ctx
  * @param next
  */
 async function htmlView(ctx, next) {
     if (ctx.reactDom) {
         await ctx.render('index', {
+            title: ctx.initName,
             root: ctx.reactDom,//初始化Html
             state: ctx.fluxStore.getState(), //redux数据
             params: { //服务器参数

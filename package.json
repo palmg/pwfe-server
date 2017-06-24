@@ -20,8 +20,8 @@
   },
   "scripts": {
     "demo-dev": "cross-env NODE_ENV=test nodemon ./demo/myServer.js --watch server --watch build",
-    "demo-build": "node ./demo/myBuilder.js",
-    "demo-pro": "node ./demo/dist/server/server.js",
+    "demo-build": "node NODE_ENV=production ./demo/myBuilder.js",
+    "demo-pro": "node NODE_ENV=production ./demo/dist/server/server.js",
     "demo-clean": "rimraf ./demo/dist/*",
     "babel": "grunt && babel ./src/ -d ./",
     "pm2": "pm2"

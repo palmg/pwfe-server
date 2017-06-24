@@ -16,10 +16,10 @@ if (typeof require.ensure !== 'function') { //server without webpack
  */
 const routes = [
     {
-        id: 'comp1',
-        module: 'comp1',
-        url: '/',
-        component: (call)=> {
+        id: 'comp1', //页面id，在列表中唯一
+        url: '/', //页面对应的URL
+        name: '演示文稿', //页面名称，会渲染到title媒体属性中
+        component: (call)=> { //加载组件的回调
             require.ensure([], require => {
                 call(require('./sub/comp1'))
             }, 'comp1')
@@ -28,6 +28,7 @@ const routes = [
         id: 'index',
         module: 'course',
         url: '/comp1',
+        name: 'Demo1页面',
         component: (call)=> {
             require.ensure([], require => {
                 call(require('./sub/comp1'))
@@ -37,6 +38,7 @@ const routes = [
         id: 'comp2',
         module: 'comp2',
         url: '/comp2',
+        name: 'Demo2页面',
         component: (call)=> {
             require.ensure([], require => {
                 call(require('./sub/comp2'))

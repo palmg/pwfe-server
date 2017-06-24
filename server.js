@@ -13,7 +13,7 @@ var init = require('./lib/common/init'),
  * 1）必须设置 app。
  * 2）必须设置 routes。
  * @param {object} options {
- *
+ *     //options的配置详见 {./config/context}
  * }
  */
 var server = function server(options) {

@@ -4,7 +4,8 @@ const path = require('path'),
     entry = env.getParam('entry'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ProgressBarPlugin = require('progress-bar-webpack-plugin'),
-    dir = env.getParam('workDir')
+    dir = env.getParam('workDir'),
+    defined = Object.assign({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}, env.getParam('define'))
 entry.push('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000')
 module.exports = {
     devtool: env.getParam('sourceMap'),
@@ -70,11 +71,7 @@ module.exports = {
             filename: path.resolve(dir, env.getParam('outPath'), env.getParam('viewPath'), env.getParam('htmlFileName')),
             template: path.resolve(dir, env.getParam('htmlTemplatePath'))
         }),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-            __RunMode: JSON.stringify(env.getParam('runMode')),
-            __Local: env.getParam('localRun') //本地模式
-        }),
+        new webpack.DefinePlugin(defined),
         new ProgressBarPlugin({summary: false})
     ]
 }

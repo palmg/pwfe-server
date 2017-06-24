@@ -21,6 +21,7 @@ async function component(ctx, next) {
                     })
                 })
                 ctx.initId = i.id; //设置当前组件ID
+                ctx.initName = i.name;
                 return next();
             }
         }

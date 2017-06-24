@@ -39,12 +39,11 @@ const init = require('./lib/common/init'),
  * 1）必须设置 app。
  * 2）必须设置 routes。
  * @param {object} options {
- *
+ *     //options的配置详见 {./config/context}
  * }
  */
 const devServer = (options) => {
     log("init server!")
-    process.env.NODE_ENV = 'test'
     //初始化环境参数
     init(options)
     //加载服务器运行

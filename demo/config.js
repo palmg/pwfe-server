@@ -4,6 +4,8 @@
 const reducerDemo = require('./src/reducer'),
     routes = require('./src/routes'),
     App = require('./src/app'),
+
+    //通用配置，用于打包和服务器运行
     config = {
         workDir: __dirname,
         entry: './src/demo',
@@ -14,7 +16,11 @@ const reducerDemo = require('./src/reducer'),
         serverEntry: './myProServer',
         serverModule: '../node_modules',
         reducer: {reducerDemo},
-        routes: routes
+        routes: routes,
+        define: {
+            runMode: "SITE",
+            localRun: false,
+        }
     }
 
 module.exports = config
