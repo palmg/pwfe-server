@@ -37,7 +37,7 @@ const routes = [
     },{
         id: 'comp2',
         module: 'comp2',
-        url: '/comp2',
+        url: '/comp2/:params',
         component: (call)=> {
             require.ensure([], require => {
                 call(require('./sub/comp2'))

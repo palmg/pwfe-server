@@ -3,5 +3,5 @@
  */
 const server = require('../server'),
     config = require('./config');
-//运行服务器，实质上也是一个webpack打包的入口
+//运行服务器入口，实质上也是一个webpack打包的入口
 server(config);

@@ -4,6 +4,13 @@
 
 import env from '../common/env'
 const routes = env.getParam("routes")
+const reRoutes = routes.map(i=> {
+    const pos = i.url.indexOf(':') - 1;
+    i.suffix = 0 < pos
+    i.url = i.url.substring(0, pos)
+    return i
+})
+
 
 /**
  * 初始化入口页面的工具，必须保证路由配置(routes)符合配置规范
@@ -13,10 +20,10 @@ const routes = env.getParam("routes")
  */
 async function component(ctx, next) {
     if (ctx.fluxStore) {
-        for(let i of routes){ //从全局配置中获取路由列表
-            if(i.url === ctx.url){
+        for (let i of reRoutes) { //从全局配置中获取路由列表
+            if ((!i.suffix && i.url === ctx.url) || (i.suffix && ctx.url.startsWith(i.url))) {
                 ctx.initComp = await new Promise((resolve, reject)=> {
-                    i.component((Comp)=>{
+                    i.component((Comp)=> {
                         resolve(Comp);
                     })
                 })
@@ -25,7 +32,7 @@ async function component(ctx, next) {
                 return next();
             }
         }
-    }else {
+    } else {
         return next();
     }
 }
