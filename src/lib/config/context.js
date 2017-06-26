@@ -156,6 +156,9 @@ const env = {
      */
     middlewareChain: false,
     //---------------------------------文件输出配置---------------------------------------
+    /**
+     * 打包文件的输出名称
+     */
     fileName: `${out.prefix}${out.idTag}${out.nameTag}[hash:${out.hashLength}${out.suffix}].js`,
     /**
      * 生成的分片文件打包规则。

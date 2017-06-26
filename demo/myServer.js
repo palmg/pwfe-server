@@ -19,8 +19,9 @@ const devServer = require('../devServer'),
             app: ()=> {
                 return require('./src/app')
             },
-            define:{
+            define: {
                 runMode: "SITE",
                 localRun: false,
-            }
+            },
+            port: 9090
         });

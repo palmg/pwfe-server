@@ -3116,10 +3116,11 @@ if (false) {
  * 6）参数中，id表示页面标识符号，module表示所属模块，url跳转路径，component配置require.ensure加载过程。
  */
 var routes = [{
-    id: 'comp1',
-    module: 'comp1',
-    url: '/',
+    id: 'comp1', //页面id，在列表中唯一
+    url: '/', //页面对应的URL
+    name: '演示文稿', //页面名称，会渲染到title媒体属性中
     component: function component(call) {
+        //加载组件的回调
         __webpack_require__.e/* require.ensure */(0).then((function (require) {
             call(__webpack_require__(132));
         }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
@@ -3128,6 +3129,7 @@ var routes = [{
     id: 'index',
     module: 'course',
     url: '/comp1',
+    name: 'Demo1页面',
     component: function component(call) {
         __webpack_require__.e/* require.ensure */(0).then((function (require) {
             call(__webpack_require__(132));
@@ -3136,7 +3138,7 @@ var routes = [{
 }, {
     id: 'comp2',
     module: 'comp2',
-    url: '/comp2',
+    url: '/comp2/:params',
     component: function component(call) {
         __webpack_require__.e/* require.ensure */(1).then((function (require) {
             call(__webpack_require__(321));

@@ -1,1 +1,1 @@
-exports.ids=[0],exports.modules={145:function(e,t,u){"use strict";var n=u(21),r=function(e){return e&&e.__esModule?e:{default:e}}(n),o=function(e){return r.default.createElement("div",null,"comp1 页面")};e.exports=o}};
+exports.ids=[0],exports.modules={144:function(e,t,u){"use strict";var n=u(21),r=function(e){return e&&e.__esModule?e:{default:e}}(n),o=function(e){return r.default.createElement("div",null,"comp1 页面")};e.exports=o}};
