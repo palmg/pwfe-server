@@ -17,11 +17,15 @@ const devServer = require('../devServer'),
             reducer: {reducerDemo},
             routes: routes,
             app: ()=> {
-                return require('./src/app')
+                return require('pwfe-dom/app')
+            },
+            children: ()=>{
+                return require('./src/contain')
             },
             define: {
                 runMode: "SITE",
                 localRun: false,
             },
-            port: 9090
+            port: 8080,
+            sourceMap: 'source-map'
         });

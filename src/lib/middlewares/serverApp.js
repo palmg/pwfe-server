@@ -5,6 +5,8 @@ import {Provider} from 'react-redux'
 import env from '../common/env'
 
 const App = env.getParam('app')(),
+    children = env.getParam('children'),
+    Children = children && children(),
     routes = env.getParam('routes')
 /**
  * 在服务端创建react渲染入口lo
@@ -17,7 +19,9 @@ async function serverApp(ctx, next) {
         ctx.reactDom = renderToString(
             <Provider store={ctx.fluxStore}>
                 <StaticRouter location={ctx.url} context={context}>
-                    <App init={{comp: ctx.initComp, id: ctx.initId}} routes={routes} />
+                    <App init={{comp: ctx.initComp, id: ctx.initId}} routes={routes}>
+                        {Children && <Children />}
+                    </App>
                 </StaticRouter>
             </Provider>)
     }

@@ -21,9 +21,6 @@ const reRoutes = routes.map(i=> {
 async function component(ctx, next) {
     if (ctx.fluxStore) {
         for (let i of reRoutes) { //从全局配置中获取路由列表
-            console.log("url:", ctx.url)
-            console.log("suffix:", i.suffix)
-            console.log("url:", i.url)
             if ((!i.suffix && i.url === ctx.url) || (i.suffix && ctx.url.startsWith(i.url))) {
                 ctx.initComp = await new Promise((resolve, reject)=> {
                     i.component((Comp)=> {
