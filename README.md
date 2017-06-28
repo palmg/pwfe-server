@@ -25,7 +25,7 @@ pwfe-server主要是用于快速构建react组件化、静态化、分片加载�
  1. 安装git。
  1. 执行：``npm install git+https://github.com/palmg/pwfe-server.git``
 ## 使用
-***pwfe-server*** 仅仅提供了3个接口：`devServer`、`server`、`builder`。
+**pwfe-server** 仅仅提供了3个接口：`devServer`、`server`、`builder`。
 `devServer`支持热部署和代码动态编译。`server`用于运行在测试或生产服务器上nodejs服务器。`builder`用于对服务器进行打包。
 
 ### devServer
@@ -46,7 +46,7 @@ devServer({
 设定好之后使用nodejs启动
 ### server与builder
 servre是用于提供服务器的启动入口，而builder是用于对这个入口使用webpack进行打包，两者使用一模一样的配置。
-```
+```JavaScript
 //myProServer
 import server from 'pwfe-server/server'
 server({
@@ -56,9 +56,9 @@ server({
 ```
 指定builder来运行server会在outPut路径下生成对应的生产包和客户端包。
 ### Demo说明
-Demo用于演示如何使用pwfe-server。
+**Demo**用于演示如何使用pwfe-server。
 运行之前请先执行`npm install`安装所有依赖模块。如果遇到`sass-node`安装异常，请再使用`cnpm install`安装。
-***Demo***中用于服务器运行的只有三个文件，`myServer`用于运行开发服务器、`myProServer`用于设置生产服务器、`myBuilder`用于构建生产服务器。
+**Demo**中用于服务器运行的只有三个文件，`myServer`用于运行开发服务器、`myProServer`用于设置生产服务器、`myBuilder`用于构建生产服务器。
 - 使用`npm run demo-dev`运行测试服务器。启动后浏览器中输入localhost:8080可以看到效果。
 - 使用`npm run demo-build`使用myBuilder进行生产打包。
 - 使用`npm run demo-pro`来运行打包之后的生产服务器。
@@ -147,12 +147,13 @@ defPageName|默认网页的Title。可以在routes列表中为每一个页面设
 }]
 ```
 ***参数说明***：
-参数|说明
-----|----
-id|表示该页面的唯一标识，在内部用于匹配和实现前后端同步渲染。
-url|页面对应的url。可以为`/path/name`或`/path/name/:params`的形式
-name|页面显示在浏览器title的名称。
-component|获取组件的回调方式。一般是(cb)=>{cb(Component)}的方式，无论通过什么方式获取React组件，最后使用cb(component)来返回。例如上面使用了require.ensure规范。
+
+接口 | 说明
+------------ | -------------
+id | 表示该页面的唯一标识，在内部用于匹配和实现前后端同步渲染。
+url | 页面对应的url。可以为`/path/name`或`/path/name/:params`的形式
+name | 页面显示在浏览器title的名称。
+component | 获取组件的回调方式。一般是(cb)=>{cb(Component)}的方式，无论通过什么方式获取React组件，最后使用cb(component)来返回。例如上面使用了require.ensure规范。
 ### 前端入口entry
 前端入口是指webpack打包的entry文件。在单页面应用中一般就一个入口。
 在pwfe-dom工程中提供了通用入口高阶组件entry，请参看[pwfe-dom][1]相关说明。
