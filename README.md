@@ -46,7 +46,7 @@ devServer({
 设定好之后使用nodejs启动
 ### server与builder
 servre是用于提供服务器的启动入口，而builder是用于对这个入口使用webpack进行打包，两者使用一模一样的配置。
-```
+```JavaScript
 //myProServer
 import server from 'pwfe-server/server'
 server({
@@ -147,12 +147,13 @@ defPageName|默认网页的Title。可以在routes列表中为每一个页面设
 }]
 ```
 ***参数说明***：
-参数|说明
-----|----
-id|表示该页面的唯一标识，在内部用于匹配和实现前后端同步渲染。
-url|页面对应的url。可以为`/path/name`或`/path/name/:params`的形式
-name|页面显示在浏览器title的名称。
-component|获取组件的回调方式。一般是(cb)=>{cb(Component)}的方式，无论通过什么方式获取React组件，最后使用cb(component)来返回。例如上面使用了require.ensure规范。
+
+接口 | 说明
+------------ | -------------
+id | 表示该页面的唯一标识，在内部用于匹配和实现前后端同步渲染。
+url | 页面对应的url。可以为`/path/name`或`/path/name/:params`的形式
+name | 页面显示在浏览器title的名称。
+component | 获取组件的回调方式。一般是(cb)=>{cb(Component)}的方式，无论通过什么方式获取React组件，最后使用cb(component)来返回。例如上面使用了require.ensure规范。
 ### 前端入口entry
 前端入口是指webpack打包的entry文件。在单页面应用中一般就一个入口。
 在pwfe-dom工程中提供了通用入口高阶组件entry，请参看[pwfe-dom][1]相关说明。
