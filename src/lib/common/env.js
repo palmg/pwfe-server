@@ -1,21 +1,29 @@
 /**
  * Created by chkui on 2017/6/21.
  */
-const context = require('../config/context')
-const __Env = Object.assign({}, context.env)
+const context = require('../config/context'),
+    naming = require('./naming')
+let __env
 
+/**
+ * 初始化环境变量
+ */
+const init = ()=>{
+    __env = context.init(naming.getEnv())
+}
 /**
  * 获取指定参数
  */
-export const getParam = key => {
-    return __Env[key]
+const getParam = key => {
+    return __env[key]
 }
 
-export const setParam = (key, value) => {
-    __Env[key] = value
+const setParam = (key, value) => {
+    __env[key] = value
+    return true
 }
 
-export const getEnv = ()=> __Env
+const getEnv = ()=> __env
 
-const env = {getParam, setParam, getEnv}
+const env = {init, getParam, setParam, getEnv}
 export default env

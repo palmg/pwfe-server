@@ -7,8 +7,15 @@ const init = (opt) => {
 
     //获取配置对象，初始化默认配置
     const env = require('./env'),
-        out = require('./out')
+        naming = require('./naming'),
+        namingKeys = Object.keys(opt)
+    naming.init()
+    for (let key of namingKeys) {
+        const defValue = naming.getParam(key)
+        typeof defValue !== "undefined" && naming.setParam(key, opt[key]) && delete opt[key]
+    }
 
+    env.init(naming.getEnv())
     //记录要初始化的中间件
     const middlewareChain = opt.middlewareChain;
     delete opt.middlewareChain
@@ -55,8 +62,10 @@ const init = (opt) => {
         env.setParam('middlewareChain', chain)
     })()
 
-    for (let key in opt) {
-        typeof env.getParam(key) !== "undefined" ? env.setParam(key, opt[key]) : out.getParam(key) && out.setParam(key, opt[key])
+    const contextKeys = Object.keys(opt)
+    for (let key of contextKeys) {
+        const defValue = env.getParam(key)
+        typeof defValue !== "undefined" && env.setParam(key, opt[key])
     }
 
     log('workDir:', env.getParam('workDir'))
