@@ -169,7 +169,7 @@ const env = {
      * }]
      * 8）当id的值设置为'ALL-RUN'时，表示任何页面请求均会执行
      */
-    exeAction:false,
+    exeAction: false,
     //---------------------------------中间件配置----------------------------------------
     /**
      * 中间件处理了连，会在devServer.js或server.js中添加.
@@ -231,7 +231,7 @@ const env = {
     /**
      * 用于DefinePlugin的属性配置。是一个对象
      */
-    define:{},
+    define: {},
     /**
      * 默认网页的Title。可以在routes列表中为每一个页面设置title
      */

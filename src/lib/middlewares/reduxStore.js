@@ -7,7 +7,9 @@ import env from '../common/env'
 import {match} from '../common/routes'
 import log from '../common/log'
 import {exeAction} from '../config/enums'
-const reducer = env.getParam("reducer")
+const reducer = env.getParam("reducer"),
+    suffixAlias = env.getParam('suffixAlias'),
+    reg = new RegExp(suffixAlias)
 
 /**
  * 从全局配置中获取reducer的配置，并根据配置生成store
@@ -27,7 +29,9 @@ const reducer = env.getParam("reducer")
  * @return {*}
  */
 async function reduxStore(ctx, next) {
-    const matchUrl = match(ctx.url)
+    const split = ctx.url.split('?'),
+        url = split && 0 < split.length ? split[0] : ctx.url,
+        matchUrl = match(url)
     if (matchUrl) {
         try {
             ctx.fluxStore = await new Promise((resolve, reject)=> {
@@ -51,7 +55,7 @@ async function reduxStore(ctx, next) {
                     }
                 }
             )
-        }catch (err){
+        } catch (err) {
             log('process fluxStore error', err)
         }
         ctx.match = matchUrl
