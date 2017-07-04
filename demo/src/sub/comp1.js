@@ -5,6 +5,6 @@
 import React from 'react'
 
 const Comp1 = props =>
-    <div>comp1 页面</div>
+    <div>comp1生成的页面</div>
 
 module.exports = Comp1

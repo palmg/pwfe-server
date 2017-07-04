@@ -8,15 +8,31 @@
  * 例如课程模块下记录活动列表的reducer命名为：courseOutingList,
  * reducer中对应的type以这个作为前缀来命名后续业务内容，例如：courseOutingListOnLoad
  */
-const reducerDemo = (state = 'Demo1', action) => {
+const reducerDemo = (state = 'None', action) => {
     switch (action.type) {
         case '1':
-            return 'Demo1';
+            return action.data;
         case '2':
-            return 'Demo1';
+            return action.data;
         default :
             return state;
     }
 };
 
-module.exports = reducerDemo
+const policy = (state = {
+    policy: 'None'
+}, action) => {
+    switch (action.type) {
+        case 'policy':
+            return action.data
+        default:
+            return state
+    }
+}
+
+const reducer = {
+    reducerDemo,
+    policy
+}
+
+module.exports = reducer

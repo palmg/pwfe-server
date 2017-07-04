@@ -37,13 +37,22 @@ const routes = [
     },{
         id: 'comp2',
         module: 'comp2',
-        url: '/comp2/:params',
+        url: '/comp2/:param1/:param2',
         component: (call)=> {
             require.ensure([], require => {
                 call(require('./sub/comp2'))
             }, 'comp2')
         }
-    },
+    },{
+        id: 'comp3',
+        module: 'comp3',
+        url: '/comp3/:param1',
+        component: (call)=> {
+            require.ensure([], require => {
+                call(require('./sub/comp3'))
+            }, 'comp2')
+        }
+    }
 ]
 
 module.exports = routes
