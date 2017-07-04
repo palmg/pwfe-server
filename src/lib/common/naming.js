@@ -25,4 +25,4 @@ const setParam = (key, value) => {
 const getEnv = ()=> __name
 
 const naming = {init, getParam, setParam, getEnv}
-export default naming
+module.exports = naming

@@ -26,4 +26,4 @@ const setParam = (key, value) => {
 const getEnv = ()=> __env
 
 const env = {init, getParam, setParam, getEnv}
-export default env
+module.exports = env
