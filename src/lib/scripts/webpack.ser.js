@@ -5,6 +5,7 @@ const path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
     OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
+    ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin'),
     dir = env.getParam('workDir'),
     serverModule = env.getParam('serverModule'),
     serverEntry = {} //服务器打包的entry
@@ -42,7 +43,8 @@ const externals = serverModule ?
         new ExtractTextPlugin({
             filename: env.getParam('cssFileName'),
             allChunks: true
-        })
+        }),
+        new ProgressBarWebpackPlugin()
     ]
 
 env.getParam('compressJs') && (()=> {
@@ -188,7 +190,8 @@ serverConfig = {
         new ExtractTextPlugin({
             filename: env.getParam('cssFileName'),
             allChunks: true
-        })
+        }),
+        new ProgressBarWebpackPlugin()
     ]
 }
 
