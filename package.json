@@ -1,6 +1,6 @@
 {
   "name": "pwfe-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "palmg react nodejs server",
   "repository": {
     "type": "git",
