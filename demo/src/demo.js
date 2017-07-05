@@ -8,6 +8,7 @@ import routes from './routes'
 import reducer from './reducer'
 import entry from 'pwfe-dom/entry'
 import Contain from './contain'
+import './demo.scss'
 
 entry({
     reducer: reducer,

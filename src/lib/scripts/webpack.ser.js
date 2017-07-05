@@ -4,6 +4,7 @@ const path = require('path'),
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
     dir = env.getParam('workDir'),
     serverModule = env.getParam('serverModule'),
     serverEntry = {} //服务器打包的entry
@@ -44,10 +45,19 @@ const externals = serverModule ?
         })
     ]
 
-env.getParam('compressJs') && clientPlugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {warnings: false},
-    comments: false
-}))
+env.getParam('compressJs') && (()=> {
+    clientPlugins.push(new webpack.optimize.UglifyJsPlugin({ //压缩js
+        compress: {warnings: false},
+        comments: false
+    }))
+    //压缩css
+    clientPlugins.push(new OptimizeCssAssetsPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: {discardComments: {removeAll: true}},
+        canPrint: true
+    }))
+})()
 
 env.getParam('mergingChunk') && (()=> {
     clientPlugins.push(new webpack.optimize.AggressiveMergingPlugin())

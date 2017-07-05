@@ -16,6 +16,7 @@ const reducer = require('./src/reducer'),
         serverModule: '../node_modules',
         reducer: reducer,
         routes: routes,
+        compressJs: true,
         define: {
             runMode: "SITE",
             localRun: false,

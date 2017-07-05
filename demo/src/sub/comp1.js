@@ -3,8 +3,9 @@
  */
 
 import React from 'react'
+const cn = require('classnames/bind').bind(require('./comp1.scss'))
 
 const Comp1 = props =>
-    <div>comp1生成的页面</div>
+    <div className={cn('comp1')}>comp1生成的页面</div>
 
 module.exports = Comp1
