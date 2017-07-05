@@ -38,17 +38,16 @@ var init = require('./lib/common/init'),
  */
 var builder = function builder(options, cb) {
     log("building file!");
-    process.env.NODE_ENV = 'production';
-
     options = options || {};
     options.isProd = true;
 
     //初始化环境参数
     var opts = init(options),
-        env = opts.getEnv();
+        env = opts.getEnv(),
+        distPath = path.resolve(env.workDir, env.outPath);
     //清空打包文件夹
-    log('remove dist file');
-    deleteDir(path.resolve(env.workDir, env.outPath), false);
+    log('remove dist file：', distPath);
+    deleteDir(distPath, false);
 
     var webpack = require('webpack'),
         config = require('./lib/scripts/webpack.ser'),

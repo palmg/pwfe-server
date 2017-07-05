@@ -36,29 +36,29 @@ const init = require('./lib/common/init'),
  */
 const builder = function (options, cb) {
     log("building file!")
-    process.env.NODE_ENV = 'production'
-
     options = options || {}
     options.isProd = true
 
     //初始化环境参数
     const opts = init(options),
-        env = opts.getEnv()
+        env = opts.getEnv(),
+        distPath = path.resolve(env.workDir, env.outPath)
     //清空打包文件夹
-    log('remove dist file')
-    deleteDir(path.resolve(env.workDir, env.outPath), false)
+    log('remove dist file：', distPath)
+    deleteDir(distPath, false)
 
     var webpack = require('webpack'),
         config = require('./lib/scripts/webpack.ser'),
         compiler = webpack(config)
-    compiler.run(function(err, stats) {
-        err ? (()=>{
+    compiler.run(function (err, stats) {
+        err ? (()=> {
             log('build error! info:', err)
             process.exit(0)
-        })() : (()=>{
+        })() : (()=> {
             log("build success")
             cb ? cb() : process.exit(0)
-        ;})()
+            ;
+        })()
     });
 }
 

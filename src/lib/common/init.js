@@ -68,20 +68,25 @@ const init = (opt) => {
         typeof defValue !== "undefined" && env.setParam(key, opt[key])
     }
 
-    log('workDir:', env.getParam('workDir'))
-    log('reducer:', env.getParam('reducer'))
-    log('client Entry', env.getParam('entry'))
     opt.isProd && (()=> {
         log('server Entry:', env.getParam('serverEntry'))
         log('server Module:', env.getParam('serverModule'))
         !env.getParam('serverModule') && log()
     })()
 
+    log("Runtime Context：")
+    log(env.getEnv())
+
     return env
 }
 
 const setParam = (env, key, value) => {
     env.setParam(key, value)
+}
+
+const envPrint = (naming, env) =>{
+    const namingEntries =  Object.entries(naming),
+        envEntries = Object.entries(env)
 }
 
 module.exports = init
