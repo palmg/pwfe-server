@@ -44,7 +44,10 @@ const externals = serverModule ?
             filename: env.getParam('cssFileName'),
             allChunks: true
         }),
-        new ProgressBarWebpackPlugin()
+        new ProgressBarWebpackPlugin(),
+        new webpack.NormalModuleReplacementPlugin(
+            /\/iconv-loader$/, 'node-noop'
+        )
     ]
 
 env.getParam('compressJs') && (()=> {
@@ -191,7 +194,10 @@ serverConfig = {
             filename: env.getParam('cssFileName'),
             allChunks: true
         }),
-        new ProgressBarWebpackPlugin()
+        new ProgressBarWebpackPlugin(),
+        new webpack.NormalModuleReplacementPlugin(
+            /\/iconv-loader$/, 'node-noop'
+        )
     ]
 }
 
