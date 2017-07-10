@@ -1,6 +1,6 @@
 {
   "name": "pwfe-server",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "palmg react nodejs server",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "nodejs",
     "palmg"
   ],
-  "author": "chkui",
+  "author": "palmg",
   "license": "Apache 2.0",
   "homepage": "https://github.com/palmg/pwfe-server#readme",
   "bugs": {
