@@ -1,6 +1,6 @@
 {
   "name": "pwfe-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "palmg react nodejs server",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
     "palmg"
   ],
   "author": "palmg",
-  "license": "Apache 2.0",
+  "license": "MIT",
   "homepage": "https://github.com/palmg/pwfe-server#readme",
   "bugs": {
     "url": "https://github.com/palmg/pwfe-server/issues"
@@ -49,7 +49,7 @@
     "koa-webpack-hot-middleware": "^1.0.3",
     "optimize-css-assets-webpack-plugin": "^2.0.0",
     "progress-bar-webpack-plugin": "^1.9.0",
-    "pwfe-dom": "^0.0.4",
+    "pwfe-dom": "^1.0.0",
     "source-map-support": "^0.4.10"
   },
   "devDependencies": {
