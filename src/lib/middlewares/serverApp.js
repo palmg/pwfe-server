@@ -18,14 +18,19 @@ const App = env.getParam('app')(),
 async function serverApp(ctx, next) {
     const context = {};
     if (ctx.fluxStore) { //必须要有sotre才能进行渲染
-        ctx.reactDom = renderToString(
-            <Provider store={ctx.fluxStore}>
-                <StaticRouter location={ctx.url} context={context}>
-                    <App init={{comp: ctx.initComp, id: ctx.initId}} routes={getRoutes()}>
-                        {Children && <Children />}
-                    </App>
-                </StaticRouter>
-            </Provider>)
+        try{
+            ctx.reactDom = renderToString(
+                <Provider store={ctx.fluxStore}>
+                    <StaticRouter location={ctx.url} context={context}>
+                        <App init={{comp: ctx.initComp, id: ctx.initId}} routes={getRoutes()}>
+                            {Children && <Children />}
+                        </App>
+                    </StaticRouter>
+                </Provider>)
+        }catch (err){
+            console.error("create React dom error:", err)
+            ctx.reactDom = ''
+        }
     }
     await next()
 }

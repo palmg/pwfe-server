@@ -1,0 +1,12 @@
+._3_7gzwA1 {
+  font-size: 16px;
+  color: royalblue; }
+@charset "UTF-8";
+html {
+  font-size: 20px;
+  /*由于chrome内核的浏览器最小标定字体为12px因此使用1rem=20px来换算布局大小*/ }
+  html * {
+    box-sizing: border-box; }
+
+body {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif; }
