@@ -18,19 +18,9 @@ const reducer = require('./src/reducer'),
         routes: routes,
         compressJs: false,
         define: {
-            runMode: "SITE",
-            localRun: false,
-        }, exeAction: [{
-            id: 'comp2',
-            action: action.action1
-        }, {
-            id: 'comp2',
-            action: action.action2
-        }, {
-            id: 'comp2',
-            action: action.requestPolicy,
-            count: 2
-        }],
+            __FluxLogLevel:"'Detail'",
+            __History:"'Browser'"
+        }
     }
 
 module.exports = config

@@ -1,6 +1,7 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 import env from '../common/env'
+
 const App = env.getParam('app')
 
 /**
@@ -9,17 +10,22 @@ const App = env.getParam('app')
  * @param next
  */
 async function htmlView(ctx, next) {
-    if (ctx.reactDom) {
+    let document = '', state = {}
+    if (ctx.isMatch) {
+        if (ctx.isRender) {
+            document = ctx.reactDom
+            state = ctx.fluxStore.getState()
+        }
         await ctx.render('index', {
             title: ctx.initName || env.getParam('defPageName'),
-            root: ctx.reactDom,//初始化Html
-            state: ctx.fluxStore.getState(), //redux数据
+            root: document,//初始化Html
+            state: state, //redux数据
             params: { //服务器参数
                 initPath: ctx.url, //初始化访问的URL
                 initId: ctx.initId //初始化访问的页面组件id
             }
         })
-    } else {
+    }else{
         await next()
     }
 }

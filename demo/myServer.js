@@ -6,7 +6,7 @@
  * 1）使用node运行。例如 'node ./demo/myServer.js'
  * 2）开发服务器仅用于开发，切勿用测生产环境。
  */
-const devServer = require('../devServer'),
+const devServer = require('../src/devServer'),
     reducer = require('./src/reducer'),
     routes = require('./src/routes'),
     action = require('./src/action'),
@@ -24,20 +24,9 @@ const devServer = require('../devServer'),
                 return require('./src/contain')
             },
             define: {
-                runMode: "SITE",
-                localRun: false,
+                __FluxLogLevel:"'Detail'",
+                __History:"'Browser'"
             },
-            exeAction: [{
-                id: 'comp2',
-                action: action.action1
-            }, {
-                id: 'comp2',
-                action: action.action2
-            }, {
-                id: 'comp2',
-                action: action.requestPolicy,
-                count: 2
-            }],
             port: 8080,
-            sourceMap: 'source-map'
+            sourceMap: 'source-map',
         });

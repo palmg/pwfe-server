@@ -20,17 +20,17 @@
   },
   "scripts": {
     "demo-dev": "cross-env NODE_ENV=test nodemon ./demo/myServer.js --watch server --watch build",
-    "demo-build": "cross-env NODE_ENV=production node ./demo/myBuilder.js",
-    "demo-pro": "cross-env NODE_ENV=production node ./demo/dist/server/server.js",
+    "demo-build": "cross-env NODE_ENV=test node ./demo/myBuilder.js",
+    "demo-pro": "cross-env NODE_ENV=test node ./demo/dist/server/server.js",
     "demo-clean": "rimraf ./demo/dist/*",
     "babel": "grunt && babel ./src/ -d ./",
     "pm2": "pm2"
   },
   "dependencies": {
-    "asset-require-hook": "^1.1.0",
+    "asset-require-hook": "^1.2.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-register": "^6.26.0",
-    "css-modules-require-hook": "^4.1.0",
+    "css-modules-require-hook": "^4.2.2",
     "cssnano": "^3.10.0",
     "ejs": "^2.5.7",
     "extract-text-webpack-plugin": "^2.1.2",
@@ -49,8 +49,8 @@
     "koa-webpack-hot-middleware": "^1.0.3",
     "optimize-css-assets-webpack-plugin": "^2.0.0",
     "progress-bar-webpack-plugin": "^1.10.0",
-    "pwfe-dom": "^1.0.9",
-    "source-map-support": "^0.4.17"
+    "pwfe-dom": "^1.0.17",
+    "source-map-support": "^0.4.18"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
@@ -59,9 +59,9 @@
     "eslint-plugin-react": "^6.8.0",
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "nodemon": "^1.11.0",
-    "rimraf": "^2.5.4",
-    "pm2": "^2.2.2"
+    "nodemon": "^1.12.1",
+    "pm2": "^2.7.1",
+    "rimraf": "^2.6.2"
   },
   "noUse": {
     "redux-devtools": "^3.3.1",

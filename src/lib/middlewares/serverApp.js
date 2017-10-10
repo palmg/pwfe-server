@@ -17,7 +17,7 @@ const App = env.getParam('app')(),
  */
 async function serverApp(ctx, next) {
     const context = {};
-    if (ctx.fluxStore) { //必须要有sotre才能进行渲染
+    if (ctx.isRender) { //必须要有sotre才能进行渲染
         try{
             ctx.reactDom = renderToString(
                 <Provider store={ctx.fluxStore}>
@@ -29,7 +29,7 @@ async function serverApp(ctx, next) {
                 </Provider>)
         }catch (err){
             console.error("create React dom error:", err)
-            ctx.reactDom = ''
+            ctx.isRender = false
         }
     }
     await next()
