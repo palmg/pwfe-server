@@ -16,21 +16,11 @@ const reducer = require('./src/reducer'),
         serverModule: '../node_modules',
         reducer: reducer,
         routes: routes,
-        compressJs: true,
+        compressJs: false,
         define: {
-            runMode: "SITE",
-            localRun: false,
-        }, exeAction: [{
-            id: 'comp2',
-            action: action.action1
-        }, {
-            id: 'comp2',
-            action: action.action2
-        }, {
-            id: 'comp2',
-            action: action.requestPolicy,
-            count: 2
-        }],
+            __FluxLogLevel:"'Detail'",
+            __History:"'Browser'"
+        }
     }
 
 module.exports = config

@@ -14,7 +14,7 @@ let clientConfig, serverConfig
 serverEntry[env.getParam('serverEntryName')] = env.getParam('serverEntry') //设定服务器的打包入口
 
 const externals = serverModule ?
-//打服务器文件包时，排除所有node_module文件
+        //打服务器文件包时，排除所有node_module文件
         () => {
             return fs.readdirSync(path.resolve(dir, serverModule))
                 .filter(filename => !filename.includes('.bin'))
@@ -22,8 +22,8 @@ const externals = serverModule ?
                     externals[filename] = `commonjs ${filename}`
                     return externals
                 }, {})
-        } : ()=> {
-    },
+        } : () => {
+        },
     defined = Object.assign({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}, env.getParam('define')),
     clientPlugins = [
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -44,10 +44,25 @@ const externals = serverModule ?
             filename: env.getParam('cssFileName'),
             allChunks: true
         }),
-        new ProgressBarWebpackPlugin()
+        new ProgressBarWebpackPlugin(),
+        new webpack.NormalModuleReplacementPlugin(
+            /\/iconv-loader$/, 'node-noop'
+        )
+    ],
+    serverPlugins = [
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.DefinePlugin(defined),
+        new ExtractTextPlugin({
+            filename: env.getParam('cssFileName'),
+            allChunks: true
+        }),
+        new ProgressBarWebpackPlugin(),
+        new webpack.NormalModuleReplacementPlugin(
+            /\/iconv-loader$/, 'node-noop'
+        )
     ]
 
-env.getParam('compressJs') && (()=> {
+env.getParam('compressJs') && (() => {
     clientPlugins.push(new webpack.optimize.UglifyJsPlugin({ //压缩js
         compress: {warnings: false},
         comments: false
@@ -59,9 +74,13 @@ env.getParam('compressJs') && (()=> {
         cssProcessorOptions: {discardComments: {removeAll: true}},
         canPrint: true
     }))
+    serverPlugins.push(new webpack.optimize.UglifyJsPlugin({
+        compress: {warnings: false},
+        comments: false
+    }))
 })()
 
-env.getParam('mergingChunk') && (()=> {
+env.getParam('mergingChunk') && (() => {
     clientPlugins.push(new webpack.optimize.AggressiveMergingPlugin())
     clientPlugins.push(new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 35, //TODO 暂未提供配置
@@ -180,19 +199,7 @@ serverConfig = {
         }]
     },
     externals: externals(),
-    plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {warnings: false},
-            comments: false
-        }),
-        new webpack.DefinePlugin(defined),
-        new ExtractTextPlugin({
-            filename: env.getParam('cssFileName'),
-            allChunks: true
-        }),
-        new ProgressBarWebpackPlugin()
-    ]
+    plugins: serverPlugins
 }
 
 module.exports = [clientConfig, serverConfig]

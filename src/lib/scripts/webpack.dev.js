@@ -72,6 +72,9 @@ module.exports = {
             template: path.resolve(dir, env.getParam('htmlTemplatePath'))
         }),
         new webpack.DefinePlugin(defined),
-        new ProgressBarPlugin({summary: false})
+        new ProgressBarPlugin({summary: false}),
+        new webpack.NormalModuleReplacementPlugin(
+            /\/iconv-loader$/, 'node-noop'
+        )
     ]
 }

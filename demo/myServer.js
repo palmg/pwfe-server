@@ -24,20 +24,9 @@ const devServer = require('../devServer'),
                 return require('./src/contain')
             },
             define: {
-                runMode: "SITE",
-                localRun: false,
+                __FluxLogLevel:"'Detail'",
+                __History:"'Browser'"
             },
-            exeAction: [{
-                id: 'comp2',
-                action: action.action1
-            }, {
-                id: 'comp2',
-                action: action.action2
-            }, {
-                id: 'comp2',
-                action: action.requestPolicy,
-                count: 2
-            }],
             port: 8080,
-            sourceMap: 'source-map'
+            sourceMap: 'source-map',
         });

@@ -4,6 +4,8 @@ import {StaticRouter} from 'react-router-dom'
 import {Provider} from 'react-redux'
 import env from '../common/env'
 import {getRoutes} from '../common/routes'
+import RenderFacade from './util/facade'
+import cache from '../common/cache'
 
 const App = env.getParam('app')(),
     children = env.getParam('children'),
@@ -16,18 +18,48 @@ const App = env.getParam('app')(),
  * @param next
  */
 async function serverApp(ctx, next) {
-    const context = {};
-    if (ctx.fluxStore) { //必须要有sotre才能进行渲染
-        ctx.reactDom = renderToString(
-            <Provider store={ctx.fluxStore}>
-                <StaticRouter location={ctx.url} context={context}>
-                    <App init={{comp: ctx.initComp, id: ctx.initId}} routes={getRoutes()}>
-                        {Children && <Children />}
-                    </App>
-                </StaticRouter>
-            </Provider>)
+    await process.execute(ctx)
+    return next();
+}
+
+/**
+ * 处理过程实例。由于未使用原型方法禁止初始化多个实例，单例模式。
+ */
+const process = new function () {
+    const _this = this
+    const render = () => {
+        const context = {};
+        try{
+            _this.ctx.reactDom = renderToString(
+                <Provider store={_this.ctx.fluxStore}>
+                    <StaticRouter location={_this.ctx.url} context={context}>
+                        <App init={{comp: _this.ctx.initComp, id: _this.ctx.initId}} routes={getRoutes()}>
+                            {Children && <Children />}
+                        </App>
+                    </StaticRouter>
+                </Provider>)
+        }catch (err){
+            console.error("create React dom error:", err)
+            _this.ctx.isRender = false
+        }
     }
-    await next()
+    this.facade = new RenderFacade(
+        {
+            render: (res, rej) => {
+                render()
+                res()
+            },
+            cache: (res, rej) => {
+                const value = cache.get(_this.ctx.route.id) //获取缓存，缓存结构{html:,store:,component:}
+                value && value.html ? (_this.ctx.reactDom = value.html) : render()
+                res()
+            }
+        }
+    )
+    this.execute = function (ctx) {
+        this.ctx = ctx
+        return this.facade.execute(this.ctx)
+    }
 }
 
 module.exports = serverApp

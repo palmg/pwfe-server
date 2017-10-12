@@ -5,17 +5,17 @@
  * 初始化全局上下文
  * @param naming 对应的命名空间参数
  */
-const init = (naming)=>{
+const init = (naming) => {
     return {
         //--------------------工作路径配置------------------------
         /**
          * 基础工作路径，全局的路径都会以这个路径为相对路径。
          */
         workDir: __dirname,
-            /**
-             * webpack的入口资源路径，如果是相对路径，会以 workDir 的相对路径为准
-             */
-            entry: false,
+        /**
+         * webpack的入口资源路径，如果是相对路径，会以 workDir 的相对路径为准
+         */
+        entry: false,
         /**
          * 入口加载的APP，这里必须设定一个方法，以便以打包后在运行时初始化整个模块，而不是在打包时。
          * 例如：()=>{
@@ -116,8 +116,8 @@ const init = (naming)=>{
         /**
          * 用于redux的reducer配置
          * {
-     *     key:function(state, action){//DO}
-     * }
+         *     key:function(state, action){//DO}
+         * }
          */
         reducer: {},
         /**
@@ -132,25 +132,25 @@ const init = (naming)=>{
          *    此时的url为'/path/1/name/bt'。在调用action时会使用以下格式
          * 7）后台运行的action与routes对应，其格式为：
          * [{
-     *      id:routes对应的id,
-     *      action:要执行的action方法
-     *      count: 回调计数，由于某些action在内部还会执行另外的action，可以通过这个方法监控更多的回调，默认为1
-     * }]
+         *      id:routes对应的id,
+         *      action:要执行的action方法
+         *      count: 回调计数，由于某些action在内部还会执行另外的action，可以通过这个方法监控更多的回调，默认为1
+         * }]
          * 8）当id的值设置为'ALL-RUN'时，表示任何页面请求均会执行
          */
         exeAction: false,
-            //---------------------------------中间件配置----------------------------------------
-            /**
-             * 中间件处理了连，会在devServer.js或server.js中添加.
-             * 设定是中间件的路径，在系统运行时会通过require加载
-             * 默认为[reduxStore,component,serverApp,htmlView]。测试环境会额外添加一个dataRoute，用于模拟.json文件进行测试
-             * 参数以回调函数的方式提供：
-             * [()=>require('../middlewares/reduxStore'),
-             * ()=>require('../middlewares/component'),
-             * ()=>require('../middlewares/serverApp'),
-             * ()=>require('../middlewares/htmlView')]
-             */
-            middlewareChain: false,
+        //---------------------------------中间件配置----------------------------------------
+        /**
+         * 中间件处理了连，会在devServer.js或server.js中添加.
+         * 设定是中间件的路径，在系统运行时会通过require加载
+         * 默认为[reduxStore,component,serverApp,htmlView]。测试环境会额外添加一个dataRoute，用于模拟.json文件进行测试
+         * 参数以回调函数的方式提供：
+         * [()=>require('../middlewares/reduxStore'),
+         * ()=>require('../middlewares/component'),
+         * ()=>require('../middlewares/serverApp'),
+         * ()=>require('../middlewares/htmlView')]
+         */
+        middlewareChain: false,
         //---------------------------------文件输出配置---------------------------------------
         /**
          * 打包文件的输出名称
