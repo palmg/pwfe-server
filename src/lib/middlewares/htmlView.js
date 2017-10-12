@@ -1,5 +1,6 @@
 import React from 'react'
-import {renderToString} from 'react-dom/server'
+import RenderFacade from './util/facade'
+import cache from '../common/cache'
 import env from '../common/env'
 
 const App = env.getParam('app')
@@ -10,23 +11,42 @@ const App = env.getParam('app')
  * @param next
  */
 async function htmlView(ctx, next) {
-    let document = '', state = {}
     if (ctx.isMatch) {
-        if (ctx.isRender) {
-            document = ctx.reactDom
-            state = ctx.fluxStore.getState()
-        }
+        //获取React静态文本和redux状态数据
+        const data = getData(ctx)
+        writeCache(ctx) //写缓存
         await ctx.render('index', {
             title: ctx.initName || env.getParam('defPageName'),
-            root: document,//初始化Html
-            state: state, //redux数据
+            root: data.document,//初始化Html
+            state: data.state, //redux数据
             params: { //服务器参数
                 initPath: ctx.url, //初始化访问的URL
                 initId: ctx.initId //初始化访问的页面组件id
             }
         })
-    }else{
-        await next()
+    } else {
+        return next()
+    }
+}
+
+/**
+ * 从上下文获取数据
+ * @param {object} ctx koa单次请求的上下文(request context)
+ * @returns {object} {document:React渲染的HTML文本, state:store中的状态数据}
+ */
+const getData = (ctx) => {
+    return ctx.isRender ? {document: ctx.reactDom, state: ctx.fluxStore.getState()} : {document: '', state: {}}
+}
+
+/**
+ * 写缓存
+ * @param ctx
+ */
+const writeCache = (ctx) => {
+    if (ctx.isCache) {
+        const key = ctx.route.id
+        //写缓存，缓存结构{html:,store:,component:}
+        cache.get(key) || cache.set(key, {html:ctx.reactDom, store: ctx.fluxStore, component: ctx.initComp})
     }
 }
 

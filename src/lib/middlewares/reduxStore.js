@@ -6,11 +6,11 @@ import {buildStore} from 'pwfe-dom/flux'
 import env from '../common/env'
 import {match} from '../common/routes'
 import log from '../common/log'
-import {renderRuleEnum} from '../config/enums'
+import cache from '../common/cache'
+import RenderFacade from './util/facade'
 
 const reducer = env.getParam("reducer"),
     suffixAlias = env.getParam('suffixAlias'),
-    renderRule = renderRuleEnum[env.getParam('renderRule')],
     reg = new RegExp(suffixAlias)
 
 /**
@@ -37,31 +37,59 @@ const reducer = env.getParam("reducer"),
  */
 async function reduxStore(ctx, next) {
     const split = ctx.url.split('?'),
-        url = split && 0 < split.length ? split[0] : ctx.url,
-        route = match(url)
-    if (route && isRender(ctx, route)) {
+        url = split && 0 < split.length ? split[0] : ctx.url
+    buildRender(ctx, match(url))
+    await process.execute(ctx)
+    return next()
+}
+
+const process = new function () {
+    const _this = this
+    const render = () => {
         try {
-            ctx.fluxStore = await new Promise((resolve, reject) => {
-                    const store = buildStore(reducer) //TODO 还未加入action执行方法
-                    resolve(store);
-                }
-            )
-            ctx.route = route
+            _this.ctx.fluxStore = buildStore(reducer)
         } catch (err) {
             log('process fluxStore error', err)
-            ctx.isRender = false
+            _this.ctx.isRender = false
         }
-        return next();
-    } else {
-        return next();
+    }
+    this.facade = new RenderFacade(
+        {
+            render: (res, rej) => {
+                render()
+                res()
+            },
+            cache: (res, rej) => {
+                const value = cache.get(_this.ctx.route.id) //获取缓存，缓存结构{html:,store:,component:}
+                value && value.store ? (_this.ctx.fluxStore = value.store) : render()
+                res()
+            }
+        }
+    )
+    this.execute = function (ctx) {
+        this.ctx = ctx
+        return this.facade.execute(this.ctx)
     }
 }
 
-const isRender = (ctx, route) => {
-    ctx.isMatch = true
-    ctx.isRender = ((renderRule === renderRuleEnum.blacklisting && !route.renderRule) ||
-        (renderRule === renderRuleEnum.whitelisting && route.renderRule))
-    return ctx.isRender
+/**
+ * 构建渲染数据
+ * @param ctx
+ * @param route
+ * @returns {boolean|*}
+ */
+const buildRender = (ctx, route) => {
+    if (route) {
+        ctx.route = route
+        const renderRule = route.renderRule
+        ctx.isMatch = true //表示匹配上路由列表了
+        ctx.isRender = renderRule && true //标记当前页面是否渲染
+        //标记是否执行缓存, 结果是一个对象{ttl:缓存时间}
+        ctx.isRender && (ctx.isCache = ('string' === typeof renderRule && 'cache' === renderRule ? {} : false) ||
+            ('object' === typeof renderRule && 'cache' === renderRule.rule ? {ttl: renderRule.ttl} : false))
+    } else {
+        ctx.isMatch = false
+    }
 }
 
 module.exports = reduxStore
