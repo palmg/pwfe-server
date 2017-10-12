@@ -8,15 +8,14 @@ const reducer = require('./src/reducer'),
     config = {
         workDir: __dirname,
         entry: './src/demo',
-        app: ()=> {
-            return require('pwfe-dom/app') //异步加载app
-        },
         appPath: './src/app',
         serverEntry: './myProServer',
         serverModule: '../node_modules',
         reducer: reducer,
         routes: routes,
         compressJs: false,
+        app: ()=> require('pwfe-dom/app'),
+        children: ()=>require('./src/contain'),
         define: {
             __FluxLogLevel:"'Detail'",
             __History:"'Browser'"

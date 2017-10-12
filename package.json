@@ -50,7 +50,7 @@
     "node-cache": "^4.1.1",
     "optimize-css-assets-webpack-plugin": "^2.0.0",
     "progress-bar-webpack-plugin": "^1.10.0",
-    "pwfe-dom": "^1.0.17",
+    "pwfe-dom": "^1.0.18",
     "source-map-support": "^0.4.18"
   },
   "devDependencies": {

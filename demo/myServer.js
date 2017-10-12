@@ -17,12 +17,8 @@ const devServer = require('../devServer'),
             appPath: './src/app',
             reducer: reducer,
             routes: routes,
-            app: ()=> {
-                return require('pwfe-dom/app')
-            },
-            children: ()=> {
-                return require('./src/contain')
-            },
+            app: ()=> require('pwfe-dom/app'),
+            children: ()=> require('./src/contain'),
             define: {
                 __FluxLogLevel:"'Detail'",
                 __History:"'Browser'"

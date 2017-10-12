@@ -46,7 +46,11 @@ const writeCache = (ctx) => {
     if (ctx.isCache) {
         const key = ctx.route.id
         //写缓存，缓存结构{html:,store:,component:}
-        cache.get(key) || cache.set(key, {html:ctx.reactDom, store: ctx.fluxStore, component: ctx.initComp})
+        cache.get(key) || cache.set(key, {
+            html: ctx.reactDom,
+            store: ctx.fluxStore,
+            component: ctx.initComp
+        }, ctx.isCache.ttl)
     }
 }
 

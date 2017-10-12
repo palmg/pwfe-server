@@ -10,6 +10,7 @@ import cache from '../common/cache'
 const App = env.getParam('app')(),
     children = env.getParam('children'),
     Children = children && children()
+console.log('Children', Children)
 
 /**
  * 在服务端创建react渲染入口
@@ -34,7 +35,7 @@ const process = new function () {
                 <Provider store={_this.ctx.fluxStore}>
                     <StaticRouter location={_this.ctx.url} context={context}>
                         <App init={{comp: _this.ctx.initComp, id: _this.ctx.initId}} routes={getRoutes()}>
-                            {Children && <Children />}
+                            {Children}
                         </App>
                     </StaticRouter>
                 </Provider>)
