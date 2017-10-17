@@ -6,13 +6,15 @@ const path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
     OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
     ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin'),
+    CopyWebpackPlugin = require('copy-webpack-plugin'),
     dir = env.getParam('workDir'),
     serverModule = env.getParam('serverModule'),
     serverEntry = {} //服务器打包的entry
 
 let clientConfig, serverConfig
 serverEntry[env.getParam('serverEntryName')] = env.getParam('serverEntry') //设定服务器的打包入口
-
+console.log('static', env.getParam('static'))
+console.log('static-copy', env.getParam('static').map(i=>{return {from:i}}))
 const externals = serverModule ?
         //打服务器文件包时，排除所有node_module文件
         () => {
@@ -47,7 +49,8 @@ const externals = serverModule ?
         new ProgressBarWebpackPlugin(),
         new webpack.NormalModuleReplacementPlugin(
             /\/iconv-loader$/, 'node-noop'
-        )
+        ),
+        new CopyWebpackPlugin(env.getParam('static').map(i=>{return {from:i}}))
     ],
     serverPlugins = [
         new webpack.optimize.OccurrenceOrderPlugin(),

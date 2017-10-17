@@ -16,6 +16,7 @@ const reducer = require('./src/reducer'),
         compressJs: false,
         app: ()=> require('pwfe-dom/app'),
         children: ()=>require('./src/contain'),
+        static:['./views/testCopy.html'],
         define: {
             __FluxLogLevel:"'Detail'",
             __History:"'Browser'"
