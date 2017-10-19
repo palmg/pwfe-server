@@ -114,8 +114,9 @@ serverEntryName|打包输出的入口文件名称。**仅生产服务有效**
 serverModule|配置工程的node_modules路径，在打包生产包时可以不将node_modules中的第三方包打入。配置为false表述将第三方包也打入。
 port|服务器启动后的监听接口。默认为8080.
 staticMaxAge|静态资源缓存时间，最小为0。静态资源包括js、css。但不包括html。单位是毫秒。**仅生产服务有效**
+staticResourceCopy|静态资源拷贝路径（相对workDir的路径），会将指定路径的静态资源copy到发前端发布目录（clientPath）。例如：`['./views/testCopy.html']`。**仅生产服务有效**
 gzip|静态资源是否执行gzip压缩，如果代理服务器（nginx）开启了gzip压缩，这里可以不必开启。**仅生产服务有效**
-routes|react-route路由配置。结构为{id: 'index',module: 'course',url: '/comp1',name: 'Demo1页面',component: (call)=> {require.ensure([], require => {call(require('./sub/comp1'))}, 'comp1')}}
+routes|react-route路由配置。详情参看后面的路由说明。
 reducer|用于redux的reducer配置。结构：`{key:function(state, action){//DO}}`
 exeAction|用于在服务端异步执行`redux`的`action`。<br>参数格式是一个列表，其格式为`[{id:'id',action:()=>{},count:1}]`。<br>**id**：启用当前action对应的`routes.id`，需要和routes列表对应。当id设置为'ALL-RUN'时，表示所有的页面请求都执行该action。<br>**action**：设定要执行的*redux action*。如果当前页面传递了参数，则会传入到action中。例如，url='/path/:param1/:param2'。当我们传递'/path/1/2'访问页面时，对应会执行`action({param1:'1',param2:'2'})`。<br>**count**：表示回调计数，每一个action执行至少会改变一次`store`数据，我们会监控这个变化次数以明确是否所指定的action都执行完毕。count表示当前action记录的次数。由于某些action在内部还会执行另外的action，可以通过这个方法监控更多的回调，默认为1。<br>**默认为false，表示没有action需要执行**。
 middlewareChain|定义koa的中间件。改参数是一个列表，通过列表指定一系列的中间件处理方法。 默认为[reduxStore,component,serverApp,htmlView]。测试环境会额外添加一个dataRoute，用于模拟.json文件进行测试。设置案例:[()=>require('../middlewares/reduxStore'),()=>require('../middlewares/component'),()=>require('../middlewares/serverApp'),()=>require('../middlewares/htmlView')]
