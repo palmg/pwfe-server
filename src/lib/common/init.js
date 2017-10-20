@@ -55,6 +55,7 @@ const init = (opt) => {
     !opt.middlewareChain && (()=> {
         const chain = [
             ()=>require('../middlewares/reduxStore'),
+            ()=>require('../middlewares/executeActions'),
             ()=>require('../middlewares/component'),
             ()=>require('../middlewares/serverApp'),
             ()=>require('../middlewares/htmlView')]
