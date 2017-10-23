@@ -34,7 +34,7 @@ require('asset-require-hook')({
     limit: 25000
 });
 
-var init = require('./src/lib/common/init'),
+var init = require('./lib/common/init'),
     log = require('./lib/common/log');
 
 /**
@@ -50,7 +50,7 @@ var devServer = function devServer(options) {
     //初始化环境参数
     init(options);
     //加载服务器运行
-    require('./src/lib/dev/server');
+    require('./lib/dev/server');
 };
 
 module.exports = devServer;
