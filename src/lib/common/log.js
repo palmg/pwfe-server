@@ -6,4 +6,5 @@ const log = (...prams) =>{
     console.log(...prams)
 }
 
-module.exports = log
+// module.exports = log
+export default log
