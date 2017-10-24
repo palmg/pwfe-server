@@ -16,7 +16,7 @@ const Comp2 = connect((state)=> {
             comp2生成的页面，当前store数据：{props.data}
         </p>
         <p>
-            policy:{props.policy}
+            policy:{props.policy.toString()}
         </p>
     </div>)
 

@@ -1,15 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {requestTest} from '../action'
+import {requestComp4} from '../action'
 
-const Comp3 = connect(
+const Comp4 = connect(
     (state, props) => ({
         data: state.reducerDemo,
-        policy: state.policy.data
+        comp4: state.policy.comp4
     }),
     (dispatch, props) => {
         return {
-            requestComp4: () => dispatch(requestTest())
+            requestComp4: (type) => dispatch(requestComp4(type))
         }
     })(class extends React.Component { //渲染榫卯详情页面
     constructor(...props) {
@@ -17,22 +17,22 @@ const Comp3 = connect(
     }
 
     componentDidMount() {
-        this.props.requestComp4()
+        this.props.requestComp4("paramTest")
     }
 
     render() {
         //tenon data
-        const {data, policy} = this.props
-        console.log(policy)
+        const {data, comp4} = this.props
+        console.log(comp4)
 
         return (
             <div>
                 <p>
-                    comp3生成的页面，当前store数据：{policy}
+                    comp3生成的页面，当前store数据：{comp4}
                 </p>
             </div>
         )
     }
 })
 
-module.exports = Comp3
+module.exports = Comp4

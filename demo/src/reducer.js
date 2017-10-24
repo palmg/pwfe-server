@@ -20,11 +20,14 @@ const reducerDemo = (state = 'None', action) => {
 };
 
 const policy = (state = {
-    policy: 'None'
+    data: 'None',
+    comp4: "None"
 }, action) => {
     switch (action.type) {
         case 'policy':
-            return action.data
+            return Object.assign({}, state, {data: action.data})
+        case 'comp4':
+            return Object.assign({}, state, {comp4: action.comp4})
         default:
             return state
     }

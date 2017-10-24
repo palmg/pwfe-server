@@ -1,7 +1,8 @@
 /**
  * Created by chkui on 2017/6/21.
  */
-import log from './log'
+// import log from './log'
+const log = require('./log')
 
 const init = (opt) => {
 
@@ -55,6 +56,7 @@ const init = (opt) => {
     !opt.middlewareChain && (()=> {
         const chain = [
             ()=>require('../middlewares/reduxStore'),
+            ()=>require('../middlewares/executeActions'),
             ()=>require('../middlewares/component'),
             ()=>require('../middlewares/serverApp'),
             ()=>require('../middlewares/htmlView')]
