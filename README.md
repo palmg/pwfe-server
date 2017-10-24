@@ -141,14 +141,24 @@ defPageName|默认网页的Title。可以在routes列表中为每一个页面设
 中间件`component`、`serverApp`中都会使用到`routes`,我们需要按照以下的方式定义routes:
 ```JavaScript
 [{
-    id: 'comp1', //页面id，在列表中唯一
-    url: '/', //页面对应的URL
+    id: 'comp3', //页面id，在列表中唯一
+    url: '/comp3/:param1', //页面对应的URL
     name: '演示文稿', //页面名称，会渲染到title媒体属性中
     renderRule: 'cache', //渲染规则
-    component: (call)=> { //加载组件的回调
+    component: (call) => { //加载组件的回调
         require.ensure([], require => {
-            call(require('./sub/comp1'))
-        }, 'comp1')
+            call(require('./sub/comp3'))
+        }, 'comp3')
+    },
+    renderActions: {//服务器端渲染actions
+        actions: [//action 列表
+            {
+                action: requestPolicy//action 的方法
+            }, {
+                action: requestComp4,//action 的方法
+                params: ['param1', 'param1'] //可选，注意参数的先后顺序，restful 中的占位符名称 这里对应这'/comp3/:param1'的feng
+            }
+        ], dispathCount: 3 //actions 列表中对应的dispath次数
     }
 }]
 ```
@@ -161,6 +171,7 @@ url | 页面对应的url。可以为`/path/name`或`/path/name/:params`的形式
 name | 页面显示在浏览器title的名称。
 renderRule | 渲染规则。设定为任何有效值表示执行服务端渲染。任何无效值都表示不进行服务端渲染。例如：`null`、`undefined`、`false`、`0`。任何有效值则表示进行渲染。<br>当值为`cache`时会启动对页面的缓存，默认缓存5分钟。可以指定一个object对象来设定缓存方式：`{rule:'cache',  ttl: 500}`。<br> **cache参数**<br>**ttl**:当前页面数据缓存时长，单位秒。
 component | 获取组件的回调方式。一般是(cb)=>{cb(Component)}的方式，无论通过什么方式获取React组件，最后使用cb(component)来返回。例如上面使用了require.ensure规范。
+renderActions | 服务器端执行更新redux store;<br> `actions` 对应的是redux action方法列表，方式：`actions:[{action: dispathMethod, params:['urlParamPlaceholder']}]`,<br>`dispathCount`表示actions列表中方法调用dispath的次数
 ### 前端入口entry
 前端入口是指webpack打包的entry文件。在单页面应用中一般就一个入口。
 在pwfe-dom工程中提供了通用入口高阶组件entry，请参看[pwfe-dom][1]相关说明。
