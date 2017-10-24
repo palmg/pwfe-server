@@ -49,7 +49,7 @@ const writeCache = (ctx) => {
         cache.get(key) || cache.set(key, {
             html: ctx.reactDom,
             store: ctx.fluxStore,
-            component: ctx.initComp,
+            component: {comp: ctx.initComp , id: ctx.initId},
             dispathCount: ctx.dispathCount
         }, ctx.isCache.ttl)
     }

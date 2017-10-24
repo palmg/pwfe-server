@@ -35,7 +35,8 @@ const process = new function () {
             cache: (res, rej) => {
                 const value = cache.get(_this.ctx.originalUrl) //获取缓存，缓存结构{html:,store:,component}
                 if (value && value.component) {
-                    _this.ctx.initComp = value.component
+                    _this.ctx.initComp = value.component.comp
+                    _this.ctx.initId =  value.component.id
                     res()
                 } else {
                     render(res)
