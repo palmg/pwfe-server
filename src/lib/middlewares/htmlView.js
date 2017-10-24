@@ -44,12 +44,13 @@ const getData = (ctx) => {
  */
 const writeCache = (ctx) => {
     if (ctx.isCache) {
-        const key = ctx.route.id
+        const key = ctx.originalUrl
         //写缓存，缓存结构{html:,store:,component:}
         cache.get(key) || cache.set(key, {
             html: ctx.reactDom,
             store: ctx.fluxStore,
-            component: ctx.initComp
+            component: ctx.initComp,
+            dispathCount: ctx.dispathCount
         }, ctx.isCache.ttl)
     }
 }

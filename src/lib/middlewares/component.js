@@ -33,7 +33,7 @@ const process = new function () {
                 render(res)
             },
             cache: (res, rej) => {
-                const value = cache.get(_this.ctx.route.id) //获取缓存，缓存结构{html:,store:,component}
+                const value = cache.get(_this.ctx.originalUrl) //获取缓存，缓存结构{html:,store:,component}
                 if (value && value.component) {
                     _this.ctx.initComp = value.component
                     res()

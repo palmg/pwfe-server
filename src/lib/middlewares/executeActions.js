@@ -28,19 +28,14 @@ async function executeActions(ctx, next) {
 
 const process = new function () {//EXECUTE ACTIONS
     const _this = this
-    //cache 中计算action个数的前缀
-    const _count_prefix = "count_"
 
     //执行action
     const execute = (renderActions, cb) => {
-        //当前route
-        let route = _this.ctx.route
+        let context = _this.ctx
         //监听state变化
         _this.ctx.fluxStore.subscribe(() => {
             //获取当前router dispath条数
-            let count = cache.get(_count_prefix + route.id) ? cache.get(_count_prefix + route.id) : 0
-            ++count
-            cache.set(_count_prefix + route.id, count, _this.ctx.isCache.ttl)
+            let count = context.dispathCount ? ++ context.dispathCount : (context.dispathCount = 1)
             renderActions.dispathCount && count === renderActions.dispathCount && cb()
         })
 
@@ -52,7 +47,7 @@ const process = new function () {//EXECUTE ACTIONS
             // 获取restfull 对应参数的值，作为参数
             let params = []
             methodObj.params && methodObj.params.map(param => {
-                params.push(route.params[param])
+                params.push(context.route.params[param])
             })
             //传参&执行action
             action && "function" === typeof action && action(...params)(_this.ctx.fluxStore.dispatch)
@@ -74,10 +69,8 @@ const process = new function () {//EXECUTE ACTIONS
             },
             cache: (res, rej) => {
                 let route = _this.ctx.route
-                //获取dipatch次数和缓存做对比
-                let count = route.renderActions && route.renderActions.dispathCount ? route.renderActions.dispathCount : 0
-                //如果cache中已经执行过，state已经被缓存起来
-                count && cache.get(_count_prefix + route.id) === count ? res() : render(res)
+                const value = cache.get(_this.ctx.originalUrl)
+                value && value.dispathCount ? (_this.ctx.dispathCount = value.dispathCount, res()) : render(res)
             }
         }
     )
