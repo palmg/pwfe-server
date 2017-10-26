@@ -1,4 +1,4 @@
-import {requestPolicy, requestComp4} from './action'
+import {requestPolicy, requestComp4, getSeoInfo} from './action'
 
 /**
  * Created by chkui on 2017/5/16.
@@ -53,6 +53,12 @@ const routes = [{
                 params: ['param1', 'param1'] //可选，注意参数的先后顺序，restful 中的占位符名称 这里对应这'/comp3/:param1'的feng
             }
         ], dispathCount: 3 //actions 列表中对应的dispath次数
+    },
+    seo:{//是否需要在组装SEO信息
+        method:getSeoInfo,//获取结构化SEO信息回调方法，需要返回promise
+        metaField: "meta", //结果集中meta字段
+        titleFiled: "title", //结果集中 title字段
+        dataStruct: "dataStruct" //google struct结构化数据字段
     },
     component: (call) => {
         require.ensure([], require => {

@@ -68,7 +68,6 @@ const process = new function () {//EXECUTE ACTIONS
                 render(res)
             },
             cache: (res, rej) => {
-                let route = _this.ctx.route
                 const value = cache.get(_this.ctx.originalUrl)
                 value && value.dispathCount ? (_this.ctx.dispathCount = value.dispathCount, res()) : render(res)
             }
