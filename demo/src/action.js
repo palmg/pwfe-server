@@ -84,7 +84,7 @@ const setComp4 = (policy) => {
 const getSeoInfo = (relativeUri) => {
     let seoResult = {}
     console.log("relative uri :" + relativeUri)
-    let getSeoApi = "http://localhost:12001/user/seoInfo?param=" + JSON.stringify({"resurl": relativeUri})
+    let getSeoApi = "http://fordevtest.mlhang.com/user/seoInfo?param=" + JSON.stringify({"resurl": relativeUri})
     //get seo from remote api
     return fetch(getSeoApi)
         .then((res) => res.json())
