@@ -29,7 +29,7 @@ const process = new function () {//EXECUTE ACTIONS
             seoData && (_this.ctx.seo = seoData)
             cb()
         }else {
-            cd()
+            cb()
         }
     }
 
