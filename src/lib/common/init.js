@@ -57,6 +57,7 @@ const init = (opt) => {
         const chain = [
             ()=>require('../middlewares/reduxStore'),
             ()=>require('../middlewares/executeActions'),
+            ()=>require('../middlewares/getSeoInfo'),
             ()=>require('../middlewares/component'),
             ()=>require('../middlewares/serverApp'),
             ()=>require('../middlewares/htmlView')]

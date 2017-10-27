@@ -19,6 +19,7 @@ async function htmlView(ctx, next) {
             title: ctx.initName || env.getParam('defPageName'),
             root: data.document,//初始化Html
             state: data.state, //redux数据
+            seo: data.seo, //seo数据
             params: { //服务器参数
                 initPath: ctx.url, //初始化访问的URL
                 initId: ctx.initId //初始化访问的页面组件id
@@ -35,7 +36,7 @@ async function htmlView(ctx, next) {
  * @returns {object} {document:React渲染的HTML文本, state:store中的状态数据}
  */
 const getData = (ctx) => {
-    return ctx.isRender ? {document: ctx.reactDom, state: ctx.fluxStore.getState()} : {document: '', state: {}}
+    return ctx.isRender ? {document: ctx.reactDom, state: ctx.fluxStore.getState(), seo: ctx.seo} : {document: '', state: {}, seo :{}}
 }
 
 /**
@@ -50,7 +51,8 @@ const writeCache = (ctx) => {
             html: ctx.reactDom,
             store: ctx.fluxStore,
             component: {comp: ctx.initComp , id: ctx.initId},
-            dispathCount: ctx.dispathCount
+            dispathCount: ctx.dispathCount,
+            seo : ctx.seo
         }, ctx.isCache.ttl)
     }
 }
