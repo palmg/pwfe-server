@@ -79,7 +79,7 @@ const routes = [{
         actions: [//action 列表
             {
                 action: requestComp4,//action 的方法
-                urlParams: ['feng',"feng"] //restful 中的占位符名称 这里对应这'/comp4/:feng'的feng
+                params: ['feng',"feng"] //restful 中的占位符名称 这里对应这'/comp4/:feng'的feng
             }
         ], dispathCount: 1 //actions 列表中对应的dispath次数
     },
