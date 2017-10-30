@@ -35,7 +35,7 @@ const process = new function () {//EXECUTE ACTIONS
         //监听state变化
         _this.ctx.fluxStore.subscribe(() => {
             //获取当前router dispath条数
-            let count = context.dispathCount ? ++ context.dispathCount : (context.dispathCount = 1)
+            let count = context.dispathCount ? ++context.dispathCount : (context.dispathCount = 1)
             renderActions.dispathCount && count === renderActions.dispathCount && cb()
         })
 
@@ -47,10 +47,18 @@ const process = new function () {//EXECUTE ACTIONS
             // 获取restfull 对应参数的值，作为参数
             let params = []
             methodObj.params && methodObj.params.map(param => {
-                params.push(context.route.params[param])
+                //当param = {type:"url",value:"param"}这样的对象时
+                if (param && "object" === typeof param) {
+                    if (param.type === "url" && param.value) {
+                        params.push(context.route.params[param.value])
+                    } else {
+                        params.push(param.value)
+                    }
+                } else {
+                    //当param为String时，默认是url中提取参数
+                    param && "string" === typeof param && params.push(context.route.params[param])
+                }
             })
-            //传参&执行action
-            action && "function" === typeof action && action(...params)(_this.ctx.fluxStore.dispatch)
         }
     }
 

@@ -45,8 +45,10 @@ const requestTest = () => {
 }
 
 //测试url中提取的参数
-const requestComp4 = (type, type2) => (dispath) => {
+const requestComp4 = (type, type2, num, str, array, info) => (dispath) => {
     console.log(type2)
+    console.log(num)
+    console.log(array)
     dispath(setComp4(type))
 }
 

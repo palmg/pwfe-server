@@ -150,17 +150,21 @@ defPageName|默认网页的Title。可以在routes列表中为每一个页面设
             call(require('./sub/comp3'))
         }, 'comp3')
     },
-    renderActions: {//服务器端渲染actions
-        actions: [//action 列表
-            {
-                action: requestPolicy//action 的方法
-            }, {
-                action: requestComp4,//action 的方法
-                params: ['param1', 'param1'] //可选，注意参数的先后顺序，restful 中的占位符名称 这里对应这'/comp3/:param1'的feng
-            }
-        ], dispathCount: 3 //actions 列表中对应的dispath次数
-    }
-    ,
+   renderActions: {//服务器端渲染actions
+           actions: [//action 列表
+               {
+                   action: requestPolicy, //action 的方法,
+                   params: ["param1"] //params子对象都是string时,默认type = "url"
+               },{
+                   action: requestComp4,//action 的方法
+                   params: [//可选, params列表, value：参数值，type：参数来源的类型(type 两个值: 1. url -> 来源于uri中的占位符 2. default -> 静态值)
+                       {value:'param1', type:"url"},//restful 中的占位符名称 这里对应这'/comp3/:param1'的feng
+                       {value: "param1", type:"url"},//restful 中的占位符名称 这里对应这'/comp3/:param1'的feng
+                       {value:"str", type:"default"}//默认值,即参数的默认值为 "str"
+                   ] //注意参数的先后顺序, params子对象都是string时,默认type = "url"
+               }
+           ], dispathCount: 3 //actions 列表中对应的dispath次数
+       },
     seo: {//是否需要在组装SEO信息
         method: getSeoInfo,//获取结构化SEO信息回调方法，需要返回promise
         metaField: "meta", //结果集中meta字段
