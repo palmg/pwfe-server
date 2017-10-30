@@ -59,6 +59,8 @@ const process = new function () {//EXECUTE ACTIONS
                     param && "string" === typeof param && params.push(context.route.params[param])
                 }
             })
+            //传参&执行action
+            action && "function" === typeof action && action(...params)(_this.ctx.fluxStore.dispatch)
         }
     }
 
