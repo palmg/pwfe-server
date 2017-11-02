@@ -44,12 +44,13 @@ const buildRegExp = (url, posArray) => {
         keys.push({
             prePart: str,
             key: url.substring(end + 1, start),
-            matchStr: str + '(\\w+)'
+            matchStr: str + "((\\w||[\u4e00-\u9fa5])+)" //"\w" 只能匹配到数字字母，不能识别中文
         })
     }
     let count = 0;
     for (let str of array) {
-        matchStr += str + '\\w+'
+        //"\w" 只能匹配到数字字母，不能识别中文
+        matchStr += str + "(\\w||[\u4e00-\u9fa5])+"
         exportUrl += str + keys[count++].key
     }
     matchStr += '$'
@@ -93,6 +94,8 @@ export const getRoutes = ()=> reRoutes
  * @return {*}
  */
 export const match = (url)=> {
+    //url 有中文情况需要先decode
+    url = decodeURI(url)
     for (let i of reRoutes) { //从全局配置中获取路由列表
         if ((!i.match && i.url === url) || (i.match && i.match.test(url))) {
             return getParams(url, i)
