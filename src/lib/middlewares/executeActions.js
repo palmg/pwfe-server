@@ -46,11 +46,13 @@ const process = new function () {//EXECUTE ACTIONS
                     }
                 } else {
                     //当param为String时，默认是url中提取参数
-                    param && "string" === typeof param && params.push(ctx.route.params[param])
+                    param && "string" === typeof param && input.push(ctx.route.params[param])
                 }
             })
             await store.dispatch(action(...input))
         }
+        //表示已经执行完毕
+        _this.ctx.dispathCount = 1
         cb()
     }
 
