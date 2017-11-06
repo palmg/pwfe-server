@@ -30,38 +30,28 @@ const process = new function () {//EXECUTE ACTIONS
     const _this = this
 
     //执行action
-    const execute = (renderActions, cb) => {
-        let context = _this.ctx
-        //监听state变化
-        _this.ctx.fluxStore.subscribe(() => {
-            //获取当前router dispath条数
-            let count = context.dispathCount ? ++context.dispathCount : (context.dispathCount = 1)
-            renderActions.dispathCount && count === renderActions.dispathCount && cb()
-        })
+    const execute = async function(renderActions, cb){
+        const ctx = _this.ctx,
+            store = ctx.fluxStore,
+            actions = renderActions.actions
 
-        let actions = renderActions.actions
-
-        //遍历每个action执行
-        for (let methodObj of actions) {
-            let action = methodObj.action
-            // 获取restfull 对应参数的值，作为参数
-            let params = []
-            methodObj.params && methodObj.params.map(param => {
+        for(let {action, params, input = []} of actions){
+            params && params.forEach(param=>{
                 //当param = {type:"url",value:"param"}这样的对象时
                 if (param && "object" === typeof param) {
                     if (param.type === "url" && param.value) {
-                        params.push(context.route.params[param.value])
+                        input.push(ctx.route.params[param.value])
                     } else {
-                        params.push(param.value)
+                        input.push(param.value)
                     }
                 } else {
                     //当param为String时，默认是url中提取参数
-                    param && "string" === typeof param && params.push(context.route.params[param])
+                    param && "string" === typeof param && params.push(ctx.route.params[param])
                 }
             })
-            //传参&执行action
-            action && "function" === typeof action && action(...params)(_this.ctx.fluxStore.dispatch)
+            await store.dispatch(action(...input))
         }
+        cb()
     }
 
     const render = (cb) => {

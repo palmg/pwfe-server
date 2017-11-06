@@ -43,7 +43,7 @@ const routes = [{
     id: 'comp3',
     module: 'comp3',
     url: '/comp3/:param1',
-    renderRule: 'cache',
+    renderRule: 'render',
     renderActions: {//服务器端渲染actions
         actions: [//action 列表
             {

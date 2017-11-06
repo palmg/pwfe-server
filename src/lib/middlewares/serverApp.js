@@ -35,6 +35,7 @@ const process = new function () {
     const render = () => {
         const context = {};
         try {
+            console.log(_this.ctx.fluxStore)
             _this.ctx.reactDom = renderToString(
                 <Provider store={_this.ctx.fluxStore}>
                     <StaticRouter location={_this.ctx.url} context={context}>

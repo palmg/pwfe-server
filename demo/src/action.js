@@ -29,17 +29,23 @@ const action2 = (param) => {
 const requestPolicy = () => {
     return (dispath) => {
         dispath(getPolicy())
-        get('http://fordevtest.mlhang.com/recommend/target/user/5/op/recommend/0').suc((res) => {
-            dispath(setPolicy(JSON.stringify(res)))
+        return new Promise((resolved, rejected) => {
+            get('http://fordevtest.mlhang.com/recommend/target/user/5/op/recommend/0').suc((res) => {
+                dispath(setPolicy(JSON.stringify(res)))
+                resolved()
+            })
         })
     }
 }
 
 const requestTest = () => {
-    return (dispath) => {
+    return dispath => {
         dispath(getPolicy())
-        return get('http://fordevtest.mlhang.com/recommend/target/user/5/op/recommend/0').suc((res) => {
-            dispath(setPolicy(JSON.stringify(res)))
+        return new Promise((resolved, rejected) => {
+            get('http://fordevtest.mlhang.com/recommend/target/user/5/op/recommend/0').suc((res) => {
+                dispath(setPolicy(JSON.stringify(res)))
+                resolved()
+            })
         })
     }
 }
