@@ -9,7 +9,11 @@ import cache from '../common/cache'
 
 const App = env.getParam('app')(),
     children = env.getParam('children'),
-    Children = children && children()
+    Children = children && children(),
+    header = env.getParam('header'),
+    Header = header && header(),
+    footer = env.getParam('footer'),
+    Footer = footer && footer()
 console.log('Children', Children)
 
 /**
@@ -30,16 +34,19 @@ const process = new function () {
     const _this = this
     const render = () => {
         const context = {};
-        try{
+        try {
             _this.ctx.reactDom = renderToString(
                 <Provider store={_this.ctx.fluxStore}>
                     <StaticRouter location={_this.ctx.url} context={context}>
-                        <App init={{comp: _this.ctx.initComp, id: _this.ctx.initId}} routes={getRoutes()}>
+                        <App init={{comp: _this.ctx.initComp, id: _this.ctx.initId}}
+                             routes={getRoutes()}
+                             header={Header}
+                             footer={Footer}>
                             {Children}
                         </App>
                     </StaticRouter>
                 </Provider>)
-        }catch (err){
+        } catch (err) {
             console.error("create React dom error:", err)
             _this.ctx.isRender = false
         }

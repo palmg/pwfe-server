@@ -5,13 +5,17 @@ import React from 'react'
 import routes from './routes'
 import reducer from './reducer'
 import entry from 'pwfe-dom/entry'
+import Header from './header'
+import Footer from './footer'
 import Contain from './contain'
 import './demo.scss'
 
 entry({
     reducer: reducer,
     routes: routes,
-    children: (<Contain />),
+    header: Header,
+    footer: Footer,
+    children: Contain,
     renderCb: ()=> {
         console.log('render success!')
     }

@@ -18,6 +18,8 @@ const devServer = require('../devServer'),
             reducer: reducer,
             routes: routes,
             app: ()=> require('pwfe-dom/app'),
+            header: ()=>require('./src/header'),
+            footer: ()=>require('./src/footer'),
             children: ()=> require('./src/contain'),
             define: {
                 __FluxLogLevel:"'Detail'",
