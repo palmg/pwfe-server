@@ -163,7 +163,7 @@ defPageName|默认网页的Title。可以在routes列表中为每一个页面设
                        {value:"str", type:"default"}//默认值,即参数的默认值为 "str"
                    ] //注意参数的先后顺序, params子对象都是string时,默认type = "url"
                }
-           ], dispathCount: 3 //actions 列表中对应的dispath次数
+           ]
        },
     seo: {//是否需要在组装SEO信息
         method: getSeoInfo,//获取结构化SEO信息回调方法，需要返回promise
@@ -182,7 +182,7 @@ url | 页面对应的url。可以为`/path/name`或`/path/name/:params`的形式
 name | 页面显示在浏览器title的名称。
 renderRule | 渲染规则。设定为任何有效值表示执行服务端渲染。任何无效值都表示不进行服务端渲染。例如：`null`、`undefined`、`false`、`0`。任何有效值则表示进行渲染。<br>当值为`cache`时会启动对页面的缓存，默认缓存5分钟。可以指定一个object对象来设定缓存方式：`{rule:'cache',  ttl: 500}`。<br> **cache参数**<br>**ttl**:当前页面数据缓存时长，单位秒。
 component | 获取组件的回调方式。一般是(cb)=>{cb(Component)}的方式，无论通过什么方式获取React组件，最后使用cb(component)来返回。例如上面使用了require.ensure规范。
-renderActions | 服务器端执行更新redux store;<br> `actions` 对应的是redux action方法列表，方式：`actions:[{action: dispathMethod, params:['urlParamPlaceholder']}]`,<br>`dispathCount`表示actions列表中方法调用dispath的次数
+renderActions | 服务器端执行更新redux store;<br> `actions` 对应的是redux action方法列表，方式：`actions:[{action: dispathMethod, params:['urlParamPlaceholder']}]`
 seo | 服务器端组装seo信息; <br> `method` 取结构化SEO信息回调方法，需要返回promise <br> `metaField` 结果集中meta字段 <br> `titleFiled` 结果集中 title字段 <br> `dataStruct` google struct结构化数据字段
 ### 前端入口entry
 前端入口是指webpack打包的entry文件。在单页面应用中一般就一个入口。
