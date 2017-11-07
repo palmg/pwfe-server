@@ -15,6 +15,8 @@ const reducer = require('./src/reducer'),
         routes: routes,
         compressJs: false,
         app: ()=> require('pwfe-dom/app'),
+        header: ()=>require('./src/header'),
+        footer: ()=>require('./src/footer'),
         children: ()=>require('./src/contain'),
         staticResourceCopy:['./views/testCopy.html'],
         define: {
