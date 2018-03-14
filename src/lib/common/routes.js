@@ -23,7 +23,7 @@ const getRegExp = (url) => {
 }
 
 const getRegPosArray = (url, posArray, start) => {
-    const pos = url.indexOf(':', start);
+    const pos = url ? url.indexOf(':', start) : -1;
     -1 < pos && posArray.push(pos) && getRegPosArray(url, posArray, pos + 1)
 }
 

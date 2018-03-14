@@ -88,6 +88,15 @@ const routes = [{
             call(require('./sub/comp4'))
         }, 'comp4')
     }
+}, {
+    id: 'error',
+    module: 'course',
+    name: 'error页面',
+    component: (call) => {
+        require.ensure([], require => {
+            call(require('./sub/comp1'))
+        }, 'comp1')
+    }
 }]
 
 module.exports = routes
