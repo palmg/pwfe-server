@@ -14,18 +14,20 @@ const path = require('path'),
 let clientConfig, serverConfig
 serverEntry[env.getParam('serverEntryName')] = env.getParam('serverEntry') //设定服务器的打包入口
 console.log('static', env.getParam('static'))
-console.log('static-copy', env.getParam('static').map(i=>{return {from:i}}))
+console.log('static-copy', env.getParam('static').map(i => {
+    return {from: i}
+}))
 const externals = serverModule ?
-        //打服务器文件包时，排除所有node_module文件
-        () => {
-            return fs.readdirSync(path.resolve(dir, serverModule))
-                .filter(filename => !filename.includes('.bin'))
-                .reduce((externals, filename) => {
-                    externals[filename] = `commonjs ${filename}`
-                    return externals
-                }, {})
-        } : () => {
-        },
+    //打服务器文件包时，排除所有node_module文件
+    () => {
+        return fs.readdirSync(path.resolve(dir, serverModule))
+            .filter(filename => !filename.includes('.bin'))
+            .reduce((externals, filename) => {
+                externals[filename] = `commonjs ${filename}`
+                return externals
+            }, {})
+    } : () => {
+    },
     defined = Object.assign({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)}, env.getParam('define')),
     clientPlugins = [
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -50,7 +52,9 @@ const externals = serverModule ?
         new webpack.NormalModuleReplacementPlugin(
             /\/iconv-loader$/, 'node-noop'
         ),
-        new CopyWebpackPlugin(env.getParam('static').map(i=>{return {from:i}}))
+        new CopyWebpackPlugin(env.getParam('static').map(i => {
+            return {from: i}
+        }))
     ],
     serverPlugins = [
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -120,6 +124,12 @@ clientConfig = {
                 }
             }]
         }, {
+            test: /\.css$/,
+            use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: ['css-loader'] //将css视作外部资源
+            })
+        }, {
             test: /\.scss$/,
             use: ExtractTextPlugin.extract({
                 fallback: 'style-loader',
@@ -175,6 +185,12 @@ serverConfig = {
                     cacheDirectory: true
                 }
             }]
+        }, {
+            test: /\.css$/,
+            use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: ['css-loader']
+            })
         }, {
             test: /\.scss$/,
             use: ExtractTextPlugin.extract({

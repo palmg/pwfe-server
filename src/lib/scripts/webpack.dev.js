@@ -33,6 +33,12 @@ module.exports = {
                 }
             }]
         }, {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+            ]
+        }, {
             test: /\.scss$/,
             use: [
                 'style-loader',
@@ -63,7 +69,7 @@ module.exports = {
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             names: ['vendor', 'manifest'],
-            filename: env.getParam('chunkFileName').replace('chunkhash' ,'hash'),//开启webpack-dev-server后无法使用chunkHash，至webpack3.0依然未修复该问题
+            filename: env.getParam('chunkFileName').replace('chunkhash', 'hash'),//开启webpack-dev-server后无法使用chunkHash，至webpack3.0依然未修复该问题
             children: true
         }),
         new webpack.HotModuleReplacementPlugin(),
