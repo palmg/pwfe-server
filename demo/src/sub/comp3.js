@@ -11,13 +11,13 @@ const Comp3 = connect(
         return {
             requestComp4: () => dispatch(requestTest())
         }
-    })(class extends React.Component { //渲染榫卯详情页面
+    })(class extends React.Component {
     constructor(...props) {
         super(...props)
     }
 
     componentDidMount() {
-        this.props.requestComp4()
+        //this.props.requestComp4()
     }
 
     render() {

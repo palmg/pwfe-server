@@ -26,33 +26,44 @@ async function executeActions(ctx, next) {
     return next();
 }
 
+/**
+ * store监听代理类，监控store的变更并回掉监听方法
+ * @param store
+ * @constructor
+ */
+function StoreProxy(store) {
+    const _this = this;
+    _this.store = store;
+    _this.wrapperListener = false;
+    _this.innerListener = function () {
+        _this.wrapperListener && _this.wrapperListener(_this.store.getState())
+    };
+    store.subscribe(_this.innerListener);
+}
+StoreProxy.prototype.addListener = function (listener) {
+    this.wrapperListener = listener;
+};
+StoreProxy.prototype.dispatch = function (result) {
+    this.store.dispatch(result);
+};
+
 const process = new function () {//EXECUTE ACTIONS
     const _this = this
 
     //执行action
     const execute = async function(renderActions, cb){
         const ctx = _this.ctx,
+            route = ctx.route,
             store = ctx.fluxStore,
             actions = renderActions.actions
-
-        for(let {action, params, input = []} of actions){
-            params && params.forEach(param=>{
-                //当param = {type:"url",value:"param"}这样的对象时
-                if (param && "object" === typeof param) {
-                    if (param.type === "url" && param.value) {
-                        input.push(ctx.route.params[param.value])
-                    } else {
-                        input.push(param.value)
-                    }
-                } else {
-                    //当param为String时，默认是url中提取参数
-                    param && "string" === typeof param && input.push(ctx.route.params[param])
-                }
-            })
-            await store.dispatch(action(...input))
+        //轮流调用Actions。
+        //每一个Action必须返回一个promise。处理完毕之后自行回掉
+        //调用Action时会传入当前url，params:匹配的参数{key:value}, storeProxy; redux 的store代理对象，提供監聽和狀態修改回掉
+        for(let action of actions){
+            const storeProxy = new StoreProxy(store);
+            await action(route.url, route.params, storeProxy)
+            console.log('for')
         }
-        //表示已经执行完毕
-        _this.ctx.dispathCount = 1
         cb()
     }
 

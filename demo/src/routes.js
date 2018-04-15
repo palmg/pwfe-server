@@ -46,25 +46,27 @@ const routes = [{
     renderRule: 'render',
     renderActions: {//服务器端渲染actions
         actions: [//action 列表
-            {
-                action: requestPolicy, //action 的方法,
-                params: ["param1"] //params子对象都是string时,默认type = "url"
-            },{
-                action: requestComp4,//action 的方法
-                params: [//可选, params列表, value：参数值，type：参数来源的类型(type 两个值: 1. url -> 来源于uri中的占位符 2. default -> 静态值)
-                    {value:'param1', type:"url"},//restful 中的占位符名称 这里对应这'/comp3/:param1'的feng
-                    {value: "param1", type:"url"},//restful 中的占位符名称 这里对应这'/comp3/:param1'的feng
-                    {value:"str", type:"default"}//默认值,即参数的默认值为 "str"
-                ] //注意参数的先后顺序, params子对象都是string时,默认type = "url"
+            (url, params, store) => {
+                return new Promise((res, rej) => {
+                    console.log(url);
+                    console.log(params);
+                    store.addListener((state)=>{
+                        console.log(state);
+                        if('loading1' !== state.policy.data){
+                            res();
+                        }
+                    })
+                    store.dispatch(requestPolicy())
+                })
             }
-        ], dispathCount: 3 //actions 列表中对应的dispath次数
+        ]
     },
-    seo:{//是否需要在组装SEO信息
-        method:getSeoInfo,//获取结构化SEO信息回调方法，需要返回promise
+    /*seo: {//是否需要在组装SEO信息
+        method: getSeoInfo,//获取结构化SEO信息回调方法，需要返回promise
         metaField: "meta", //结果集中meta字段
         titleFiled: "title", //结果集中 title字段
         dataStruct: "dataStruct" //google struct结构化数据字段
-    },
+    },*/
     component: (call) => {
         require.ensure([], require => {
             call(require('./sub/comp3'))
@@ -79,7 +81,7 @@ const routes = [{
         actions: [//action 列表
             {
                 action: requestComp4,//action 的方法
-                params: ['feng',"feng"] //restful 中的占位符名称 这里对应这'/comp4/:feng'的feng
+                params: ['feng', "feng"] //restful 中的占位符名称 这里对应这'/comp4/:feng'的feng
             }
         ], dispathCount: 1 //actions 列表中对应的dispath次数
     },

@@ -6,7 +6,7 @@
  * 1）使用node运行。例如 'node ./demo/myServer.js'
  * 2）开发服务器仅用于开发，切勿用测生产环境。
  */
-const devServer = require('../devServer'),
+const devServer = require('../src/devServer'),
     reducer = require('./src/reducer'),
     routes = require('./src/routes'),
     action = require('./src/action'),
