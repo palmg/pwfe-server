@@ -51,11 +51,10 @@ const process = new function () {//EXECUTE ACTIONS
     const _this = this
 
     //执行action
-    const execute = async function(renderActions, cb){
+    const execute = async function(actions, cb){
         const ctx = _this.ctx,
             route = ctx.route,
-            store = ctx.fluxStore,
-            actions = renderActions.actions
+            store = ctx.fluxStore
         //轮流调用Actions。
         //每一个Action必须返回一个promise。处理完毕之后自行回掉
         //调用Action时会传入当前url，params:匹配的参数{key:value}, storeProxy; redux 的store代理对象，提供監聽和狀態修改回掉
@@ -64,25 +63,24 @@ const process = new function () {//EXECUTE ACTIONS
             await action(route.url, route.params, storeProxy)
             console.log('for')
         }
+        ctx.renderActions = true;
         cb()
     }
 
     const render = (cb) => {
         const route = _this.ctx.route
         //调用route actions列表 注意cb()
-        route.renderActions && route.renderActions.actions && route.renderActions.actions.length ? execute(route.renderActions, cb) : cb()
+        route.renderActions && route.renderActions.length ? execute(route.renderActions, cb) : cb()
     }
 
     this.facade = new RenderFacade(
         {
             render: (res, rej) => {
-                //execute routes renderActions list
-                //listener store modify
                 render(res)
             },
             cache: (res, rej) => {
                 const value = cache.get(_this.ctx.originalUrl)
-                value && value.dispathCount ? (_this.ctx.dispathCount = value.dispathCount, res()) : render(res)
+                value && value.renderActions ? (_this.ctx.renderActions = value.renderActions, res()) : render(res)
             }
         }
     )

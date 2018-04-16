@@ -5,17 +5,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
         <title><%- title %></title>
-        <% if (seo) { %>
-            <%- seo.metaField %>
-            <% if (seo.dataStruct) { %>
-                <script type="application/ld+json">
-                    <%- JSON.stringify(seo.dataStruct) %>
-                </script>
-            <% } %>
-        <% } %>
+        <% if (typeof(description) !== 'undefined') { %><%- description %><% }%>
+        <% if (typeof(keywords) !== 'undefined') { %><%- keywords %><% }%>
     </head>
     <body>
         <div id="root"><%- root %></div>
+        <% if (typeof(listSamples) !== 'undefined') { %>
+        <ur>
+            <% listSamples.forEach(function(number) {%>
+            <li><%- number %></li>
+            <% }); %>
+        </ur>
+        <% }%>
         <script>
             window.REDUX_STATE = <%- JSON.stringify(state) %>;
             window.SERVER_PARAMS =<%- JSON.stringify(params) %>

@@ -1,6 +1,6 @@
 {
   "name": "pwfe-server",
-  "version": "1.0.18",
+  "version": "2.0.1",
   "description": "palmg react nodejs server",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "copy-webpack-plugin": "^4.5.1",
     "css-modules-require-hook": "^4.2.3",
     "cssnano": "^3.10.0",
-    "ejs": "^2.5.7",
+    "ejs": "^2.5.8",
     "extract-text-webpack-plugin": "^2.1.2",
     "koa": "^2.5.0",
     "koa-bodyparser": "^3.2.0",
@@ -48,10 +48,10 @@
     "koa-views": "^5.2.1",
     "koa-webpack-dev-middleware": "^1.4.6",
     "koa-webpack-hot-middleware": "^1.0.3",
-    "node-cache": "^4.1.1",
+    "node-cache": "^4.2.0",
     "optimize-css-assets-webpack-plugin": "^2.0.0",
     "progress-bar-webpack-plugin": "^1.11.0",
-    "pwfe-do    m": "^1.0.21",
+    "pwfe-dom": "^1.0.23",
     "source-map-support": "^0.4.18"
   },
   "devDependencies": {
@@ -61,8 +61,8 @@
     "eslint-plugin-react": "^6.8.0",
     "grunt": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
-    "nodemon": "^1.17.2",
-    "pm2": "^2.10.1",
+    "nodemon": "^1.17.3",
+    "pm2": "^2.10.2",
     "rimraf": "^2.6.2"
   },
   "noUse": {

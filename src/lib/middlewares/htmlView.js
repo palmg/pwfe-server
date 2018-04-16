@@ -13,18 +13,22 @@ const App = env.getParam('app')
 async function htmlView(ctx, next) {
     if (ctx.isMatch) {
         //获取React静态文本和redux状态数据
-        const data = getData(ctx)
+        const data = getData(ctx),
+            template = data.template;
         writeCache(ctx) //写缓存
-        await ctx.render('index', {
-            title: ctx.initName || env.getParam('defPageName'),
-            root: data.document,//初始化Html
+        const options = {
+            root: data.document,//react渲染的html
             state: data.state, //redux数据
-            seo: data.seo, //seo数据
-            params: { //服务器参数
+            params: { //服务器相关参数
                 initPath: ctx.url, //初始化访问的URL
                 initId: ctx.initId //初始化访问的页面组件id
             }
-        })
+        }
+        for(let key in template){
+            options[key] = template[key];
+        }
+        options.title = options.title || env.getParam('defPageName');
+        await ctx.render('index', options);
     } else {
         return next()
     }
@@ -36,7 +40,9 @@ async function htmlView(ctx, next) {
  * @returns {object} {document:React渲染的HTML文本, state:store中的状态数据}
  */
 const getData = (ctx) => {
-    return ctx.isRender ? {document: ctx.reactDom, state: ctx.fluxStore.getState(), seo: ctx.seo} : {document: '', state: {}, seo :{}}
+    return ctx.isRender ?
+        {document: ctx.reactDom, state: ctx.fluxStore.getState(), template: ctx.template} :
+        {document: '', state: {}, template: {}, renderActions: false}
 }
 
 /**
@@ -45,14 +51,14 @@ const getData = (ctx) => {
  */
 const writeCache = (ctx) => {
     if (ctx.isCache) {
-        const key = ctx.originalUrl
+        const key = ctx.originalUrl;
         //写缓存，缓存结构{html:,store:,component:}
         cache.get(key) || cache.set(key, {
             html: ctx.reactDom,
             store: ctx.fluxStore,
-            component: {comp: ctx.initComp , id: ctx.initId},
-            dispathCount: ctx.dispathCount,
-            seo : ctx.seo
+            component: {comp: ctx.initComp, id: ctx.initId},
+            renderActions: ctx.renderActions,
+            seo: ctx.seo
         }, ctx.isCache.ttl)
     }
 }

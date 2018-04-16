@@ -44,29 +44,34 @@ const routes = [{
     module: 'comp3',
     url: '/comp3/:param1',
     renderRule: 'render',
-    renderActions: {//服务器端渲染actions
-        actions: [//action 列表
-            (url, params, store) => {
-                return new Promise((res, rej) => {
-                    console.log(url);
-                    console.log(params);
-                    store.addListener((state)=>{
-                        console.log(state);
-                        if('loading1' !== state.policy.data){
-                            res();
-                        }
-                    })
-                    store.dispatch(requestPolicy())
+    renderActions: [//action 列表
+        (url, params, store) => {
+            return new Promise((res, rej) => {
+                store.addListener((state) => {
+                    if ('loading1' !== state.policy.data) {res();}
                 })
-            }
-        ]
-    },
-    /*seo: {//是否需要在组装SEO信息
-        method: getSeoInfo,//获取结构化SEO信息回调方法，需要返回promise
-        metaField: "meta", //结果集中meta字段
-        titleFiled: "title", //结果集中 title字段
-        dataStruct: "dataStruct" //google struct结构化数据字段
-    },*/
+                store.dispatch(requestPolicy())
+            })
+        }
+    ],
+    renderTemplate: [
+        (url, params, state) =>
+            new Promise((res, rej) => {
+                res({description:'<meta name="description" content="SEO DESCRIPTION"/>'})
+            }),
+        (url, params, state) =>
+            new Promise((res, rej) => {
+                res({keywords:'<meta name="keywords" content="SEO KEYWORDS">'})
+            }),
+        (url, params, state) =>
+            new Promise((res, rej) => {
+                res({listSamples:[1,2,3,4,5,6,7,8,9]})
+            }),
+        (url, params, state) =>
+            new Promise((res, rej) => {
+                res({title:'ModifyTitle'})
+            })
+    ],
     component: (call) => {
         require.ensure([], require => {
             call(require('./sub/comp3'))

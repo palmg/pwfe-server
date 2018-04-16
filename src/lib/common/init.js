@@ -57,11 +57,11 @@ const init = (opt) => {
         const chain = [
             ()=>require('../middlewares/reduxStore'),
             ()=>require('../middlewares/executeActions'),
-            ()=>require('../middlewares/getSeoInfo'),
+            ()=>require('../middlewares/template'),
             ()=>require('../middlewares/component'),
             ()=>require('../middlewares/serverApp'),
-            ()=>require('../middlewares/htmlView')]
-        !opt.isProd && chain.push(()=>require('../middlewares/dataRoute'))
+            ()=>require('../middlewares/htmlView')];
+        !opt.isProd && chain.push(()=>require('../middlewares/dataRoute'));
         env.setParam('middlewareChain', chain)
     })()
 
