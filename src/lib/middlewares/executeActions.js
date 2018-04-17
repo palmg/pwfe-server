@@ -61,7 +61,6 @@ const process = new function () {//EXECUTE ACTIONS
         for(let action of actions){
             const storeProxy = new StoreProxy(store);
             await action(route.url, route.params, storeProxy)
-            console.log('for')
         }
         ctx.renderActions = true;
         cb()
