@@ -16,7 +16,7 @@ require('babel-register')({
 
 // Css require hook
 require('css-modules-require-hook')({
-    extensions: ['.scss','css'],
+    extensions: ['.scss', '.css'],
     preprocessCss: function preprocessCss(data, filename) {
         return require('node-sass').renderSync({
             data: data,
