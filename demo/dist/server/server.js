@@ -2649,7 +2649,7 @@ config = {
     children: function children() {
         return __webpack_require__(91);
     },
-    staticResourceCopy: ['./views/testCopy.html'],
+    static: ['./views/testCopy.html'],
     define: {
         __FluxLogLevel: "'Detail'",
         __History: "'Browser'"
@@ -3975,7 +3975,7 @@ var process = new function () {
 
                         case 6:
                             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                                _context2.next = 15;
+                                _context2.next = 14;
                                 break;
                             }
 
@@ -3985,57 +3985,54 @@ var process = new function () {
                             return action(route.url, route.params, storeProxy);
 
                         case 11:
-                            console.log('for');
-
-                        case 12:
                             _iteratorNormalCompletion = true;
                             _context2.next = 6;
                             break;
 
-                        case 15:
-                            _context2.next = 21;
+                        case 14:
+                            _context2.next = 20;
                             break;
 
-                        case 17:
-                            _context2.prev = 17;
+                        case 16:
+                            _context2.prev = 16;
                             _context2.t0 = _context2["catch"](4);
                             _didIteratorError = true;
                             _iteratorError = _context2.t0;
 
-                        case 21:
+                        case 20:
+                            _context2.prev = 20;
                             _context2.prev = 21;
-                            _context2.prev = 22;
 
                             if (!_iteratorNormalCompletion && _iterator.return) {
                                 _iterator.return();
                             }
 
-                        case 24:
-                            _context2.prev = 24;
+                        case 23:
+                            _context2.prev = 23;
 
                             if (!_didIteratorError) {
-                                _context2.next = 27;
+                                _context2.next = 26;
                                 break;
                             }
 
                             throw _iteratorError;
 
+                        case 26:
+                            return _context2.finish(23);
+
                         case 27:
-                            return _context2.finish(24);
+                            return _context2.finish(20);
 
                         case 28:
-                            return _context2.finish(21);
-
-                        case 29:
                             ctx.renderActions = true;
                             cb();
 
-                        case 31:
+                        case 30:
                         case "end":
                             return _context2.stop();
                     }
                 }
-            }, _callee2, this, [[4, 17, 21, 29], [22,, 24, 28]]);
+            }, _callee2, this, [[4, 16, 20, 28], [21,, 23, 27]]);
         }));
 
         return function execute(_x3, _x4) {

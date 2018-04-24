@@ -18,7 +18,7 @@ const reducer = require('./src/reducer'),
         header: ()=>require('./src/header'),
         footer: ()=>require('./src/footer'),
         children: ()=>require('./src/contain'),
-        staticResourceCopy:['./views/testCopy.html'],
+        static:['./views/testCopy.html'],
         define: {
             __FluxLogLevel:"'Detail'",
             __History:"'Browser'"
